@@ -55,4 +55,17 @@ Skeeter::Application.routes.draw do
   # This is a legacy wild controller route that's not recommended for RESTful applications.
   # Note: This route will make all actions in every controller accessible via GET requests.
   # match ':controller(/:action(/:id))(.:format)'
+  
+  # トップページ直下にアクセスした場合
+  root :to => "top#index"
+
+  # 管理ページ用のルーティング
+  match 'manage/problem(/:action(/:id))', :controller => 'manage/problem'
+  match 'manage/contest(/:action(/:id))', :controller => 'manage/contest'
+  match 'manage/account(/:action(/:id))', :controller => 'manage/account'
+  match 'manage/system(/:action(/:id))', :controller => 'manage/system'
+
+  # デフォルトルーティング( BeeCon/{Controller}/{action}/{id} )
+  match ':controller(/:action(/:id))'
+
 end

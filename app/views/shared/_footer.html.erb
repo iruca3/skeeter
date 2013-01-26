@@ -1,0 +1,25 @@
+<%
+  # フッター
+  controller = params[ :controller ]
+  action     = params[ :action ]
+
+%>
+
+
+<% # 著作権表示 %>
+<div class="container" style="margin-top: 40px;">
+  <div class="rights">
+    &copy Skeeter 2013 All rights reserved.
+  </div>
+</div>
+
+  <%= javascript_include_tag "application" %>
+
+<% if controller == 'manage/account' && action == 'index' %>
+  <%= javascript_include_tag %w{ manage/account/index } %>
+<% elsif controller == 'manage/account' && action == 'edit' %>
+  <%= javascript_include_tag %w{ manage/account/edit } %>
+<% elsif controller == 'manage/account' && action == 'new' %>
+  <%= javascript_include_tag %w{ manage/account/new } %>
+<% end %>
+
