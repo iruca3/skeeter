@@ -41,6 +41,7 @@ class Manage::AccountController < ApplicationController
     if params[:mode] == 'edit'
       if params[:commit] == '保存する'
         # アカウント情報を保存する。
+        original_type = @edit_user.account_type
         @edit_user.login_id = params[:login_id]
         @edit_user.password = User.make_password_hash( params[:password] ) if params[:password] != ''
         @edit_user.mail_addr = params[:mail_addr]
@@ -52,8 +53,8 @@ class Manage::AccountController < ApplicationController
 
         # このアカウント以外に管理者アカウントがなく、無効化しようとしている場合ははじく。
         admins = User.find_by_enabled_admin()
-        if admins.count <= 1 && @edit_user.account_type == User::TYPE_ADMIN
-          if @edit_user.account_status == User::STATUS_DISABLED
+        if admins.count <= 1 && original_type == User::TYPE_ADMIN
+          if @edit_user.account_status == User::STATUS_DISABLED || @edit_user.account_type != User::TYPE_ADMIN
             @error = '唯一の管理者アカウントを無効化することはできません。'
             return
           end
