@@ -1,0 +1,24 @@
+<%
+  # Skeeter アカウント管理 パンくずメニュー
+
+%>
+
+<div class="row-fluid" style="margin-top:10px;">
+  <ul class="breadcrumb">
+    <li>[Skeeterアカウントの管理] <span class="divider">:</span></li>
+    <% if params[:action] != 'index' %>
+      <li><%= link_to( 'アカウント一覧', { :action => 'index' } ) %> <span class="divider">/</span></li>
+      <% if params[:action] == 'edit' %>
+        <li class="active">アカウント情報の編集</li>
+      <% elsif params[:action] == 'new' %>
+        <li class="active">アカウントの新規作成</li>
+      <% end %>
+    <% else %>
+      <li class="active">アカウント一覧</li>
+    <% end %>
+
+    <li class="pull-right" style="margin-top:-5px;">
+      <%= link_to( 'アカウントの新規作成', { :action => 'new' }, { :class => 'btn btn-bold btn-primary' } ) %>
+    </li>
+  </ul>
+</div>

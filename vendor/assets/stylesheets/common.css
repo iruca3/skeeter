@@ -1,0 +1,73 @@
+
+/* コントロールグループの余白調整 */
+.form-horizontal .control-group {
+  margin-bottom     : 10px;
+  margin-left       : -40px;
+}
+
+/* ボタンクラスの太字化オプション */
+.btn-bold {
+  font-weight       : bold;
+}
+
+/* 著作権表示用 */
+div.rights {
+  font-size         : 0.8em;
+  text-align        : right;
+}
+
+/* 列挙要素の余白調整 */
+ul {
+  margin-top: 6px;
+}
+ul.list li {
+  margin-bottom: 6px;
+}
+
+/* フォーム バリデーション用 */
+label.valid {
+  width             : 24px;
+  height            : 24px;
+  background        : url(/assets/valid.png) center center no-repeat;
+  display           : inline-block;
+  text-indent       : -9999px;
+}
+
+label.error {
+  font-weight       : bold;
+  color             : red;
+  padding           : 2px 8px;
+  margin-top        : 2px;
+}
+
+
+/* 見出し用 */
+h4.headline {
+  background        : #eef;
+  border-top        : 1px solid #cce;
+  border-right      : 2px solid #bbd;
+  border-left       : 7px solid #cce;
+  border-bottom     : 2px solid #bbd;
+  padding           : 6px 6px;
+}
+
+
+/* 余白調整 */
+div.alert-pad3 {
+  padding             : 3px;
+}
+
+div.dt-margin-left {
+  margin-left         : 30px !important;
+}
+
+/* 表の位置揃え */
+tr.center-cell th,
+tr.center-cell td {
+  text-align          : center;
+}
+
+/* DateTimePicker フォントサイズ調整 */
+div.ui-datepicker {
+  font-size           : 85%;
+}

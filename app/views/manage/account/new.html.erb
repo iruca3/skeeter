@@ -1,0 +1,85 @@
+<%
+  # アカウント新規作成ページ
+
+  account_types = User.account_types
+  account_statuses = User.account_statuses
+
+%>
+                     
+<div class="container">
+  <%= render :partial => 'breadcrumb' %>
+
+  <div class="row-fluid">
+    <% if @error != nil %>
+      <div class="alert alert-danger"><i class="icon-info-sign"></i> <%= @error %></div>
+    <% end %>
+    <% if @info != nil %>
+      <div class="alert alert-info"><i class="icon-info-sign"></i> <%= @info %></div>
+    <% end %>
+    <%= form_tag( { :controller => '/manage/account', :action => 'new' }, { :class => 'form-horizontal', :id => 'frmCreateAccount' } ) do %>
+      <div class="control-group">
+        <label class="control-label" for="inputLoginId">ログインID</label>
+        <div class="controls">
+          <%= text_field_tag( 'login_id', @new_user.login_id, { :id => 'inputLoginId' } ) %>
+        </div>
+      </div>
+      <div class="control-group">
+        <label class="control-label" for="inputPassword">パスワード</label>
+        <div class="controls">
+          <%= password_field_tag( 'password', nil, { :id => 'inputPassword' } ) %>
+        </div>
+      </div>
+      <div class="control-group">
+        <label class="control-label" for="inputPasswordConfirm">パスワード(確認)</label>
+        <div class="controls">
+          <%= password_field_tag( 'password_confirm', nil, { :id => 'inputPasswordConfirm' } ) %>
+        </div>
+      </div>
+      <div class="control-group">
+        <label class="control-label" for="inputMailAddr">メールアドレス</label>
+        <div class="controls">
+          <%= text_field_tag( 'mail_addr', @new_user.mail_addr, { :id => 'inputMailAddr', :class => 'span6', :placeholder => 'example@example.com' } ) %>
+        </div>
+      </div>
+      <div class="control-group">
+        <label class="control-label" for="inputNickName">ニックネーム</label>
+        <div class="controls">
+          <%= text_field_tag( 'nick_name', @new_user.nick_name, { :id => 'inputNickName' } ) %>
+        </div>
+      </div>
+      <div class="control-group">
+        <label class="control-label" for="inputRealName">氏名</label>
+        <div class="controls">
+          <%= text_field_tag( 'real_name', @new_user.real_name, { :id => 'inputRealName' } ) %>
+        </div>
+      </div>
+      <div class="control-group">
+        <label class="control-label" for="inputPhoneNumber">電話番号</label>
+        <div class="controls">
+          <%= text_field_tag( 'phone_number', @new_user.phone_number, { :id => 'inputPhoneNumber' } ) %>
+        </div>
+      </div>
+      <div class="control-group">
+        <label class="control-label" for="inputAccountType">アカウント種別</label>
+        <div class="controls">
+          <%= select_tag( 'account_type', options_for_select( account_types, :selected => @new_user.account_type ), { :class => 'span3', :id => 'inputAccountType' } ) %>
+        </div>
+      </div>
+      <div class="control-group">
+        <label class="control-label" for="inputAccountStatus">アカウント状態</label>
+        <div class="controls">
+          <%= select_tag( 'account_status', options_for_select( account_statuses, :selected => @new_user.account_status ), { :class => 'span3', :id => 'inputAccountStatus', :onChange => 'check_status();' } ) %>
+        </div>
+      </div>
+      <%= hidden_field_tag( 'mode', 'create' ) %>
+      <div class="control-group">
+        <div class="controls">
+          <%= submit_tag( '作成する', { :class => 'btn btn-success btn-bold' } ) %>
+          <%= link_to( '戻る', { :controller => '/manage/account' }, { :class => 'btn btn-bold' } ) %>
+        </div>
+      </div>
+    <% end %>
+
+  </div>
+</div>
+

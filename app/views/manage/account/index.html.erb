@@ -1,0 +1,88 @@
+<%
+  # Skeeter アカウント管理ページ
+
+%>
+
+<div class="container">
+  <%= render :partial => 'breadcrumb' %>
+
+  <div class="row-fluid" style="margin-top:10px;">
+    <ul class="nav nav-tabs">
+      <li class="active"><a href="#enabled" data-toggle="tab">有効なアカウント</a></li>
+      <li><a href="#disabled" data-toggle="tab">無効なアカウント</a></li>
+    </ul>
+    <div class="tab-content">
+      <div class="tab-pane fade in active" id="enabled">
+        <table class="table table-bordered table-striped table-hover table-condensed" style="font-size:0.8em;" id="enabled_account_list">
+          <thead>
+            <tr class="center-cell">
+              <th>ログインID</th>
+              <th>メールアドレス</th>
+              <th>ニックネーム</th>
+              <th>氏名</th>
+              <th>種別</th>
+              <th>最終ログイン日時</th>
+            </tr>
+          </thead>
+          <tbody>
+            <% @users.each do |user| %>
+              <% next if user.account_status != User::STATUS_ENABLED %>
+              <% 
+                if user.last_login == nil
+                  last_login_str = '-'
+                else
+                  last_login_str = user.last_login.strftime( '%Y.%m.%d %H:%M:%S' )
+                end
+              %>
+              <tr>
+                <td><%= link_to( raw( '<i class="icon-edit"></i> ' ) + user.login_id, { :action => 'edit', :id => user.id } ) %></td>
+                <td><%= user.mail_addr %></td>
+                <td><%= user.nick_name %></td>
+                <td><%= user.real_name %></td>
+                <td style="text-align:center;"><%= user.type_name %></td>
+                <td style="text-align:center;"><%= last_login_str %></td>
+              </tr>
+            <% end %>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="tab-pane fade" id="disabled">
+        <table class="table table-bordered table-striped table-hover table-condensed" style="font-size:0.8em;" id="disabled_account_list">
+          <thead>
+            <tr class="center-cell">
+              <th>ログインID</th>
+              <th>メールアドレス</th>
+              <th>ニックネーム</th>
+              <th>氏名</th>
+              <th>種別</th>
+              <th>最終ログイン日時</th>
+            </tr>
+          </thead>
+          <tbody>
+            <% @users.each do |user| %>
+              <% next if user.account_status != User::STATUS_DISABLED %>
+              <% 
+                if user.last_login == nil
+                  last_login_str = '-'
+                else
+                  last_login_str = user.last_login.strftime( '%Y.%m.%d %H:%M:%S' )
+                end
+              %>
+              <tr>
+                <td><%= link_to( raw( '<i class="icon-edit"></i> ' ) + user.login_id, { :controller => '/manage/account', :action => 'edit', :id => user.id } ) %></td>
+                <td><%= user.mail_addr %></td>
+                <td><%= user.nick_name %></td>
+                <td><%= user.real_name %></td>
+                <td style="text-align:center;"><%= user.type_name %></td>
+                <td style="text-align:center;"><%= last_login_str %></td>
+              </tr>
+            <% end %>
+          </tbody>
+        </table>
+      </div>
+
+    </div>
+  </div>
+</div>
+
