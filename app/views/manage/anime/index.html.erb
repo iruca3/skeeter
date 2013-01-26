@@ -26,6 +26,7 @@
           <tbody>
             <% @animes.each do |anime| %>
               <% next if anime.status != Anime::STATUS_ENABLED %>
+              <% anime.owner = User.new( :nick_name => '<不明>' ) if anime.owner == nil %>
               <tr>
                 <td><%= link_to( raw( '<i class="icon-edit"></i> ' ) + anime.title, { :action => 'edit', :id => anime.id } ) %></td>
                 <td><%= anime.story_number %></td>

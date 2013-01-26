@@ -7,8 +7,8 @@
 #   Mayor.create(name: 'Emanuel', city: cities.first)
 
 # 初期管理アカウント
-# アカウントが存在しない場合にのみ、管理者アカウントを生成する。
-if User.find( :all ).count <= 0
+# 管理者アカウントが存在しない場合にのみ、管理者アカウントを生成する。
+if User.find( :all, :conditions => { :account_type => User::TYPE_ADMIN } ).count <= 0
   admin_user = User.create_user(
     'admin', 'admin!', User::TYPE_ADMIN, '', 'Administrator', ''
   )

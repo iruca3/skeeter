@@ -6,13 +6,87 @@
 
 <div class="container" style="margin-top:22px;">
   <div class="row-fluid">
-    <div class="span12">
-      <h4>ようこそ、<%= @display_name %> さん。</h4>
+    <div class="span12" style="margin-top:-30px;">
+      <h4>ようこそ、<%= @user.name %> さん。</h4>
+      <% if @user.account_type == User::TYPE_ADMIN %>
       <div style="margin-top:-10px;">
-        <% if @user.account_type == User::TYPE_ADMIN %>
           <span style="font-size:0.9em;color:#CC7744;font-weight:bold;">管理者としてログインしています。</span>
-        <% end %>
       </div>
+      <% end %>
+      
+      <ul class="nav nav-tabs">
+        <li class="active"><a href="#cut" data-toggle="tab">担当カット一覧</a></li>
+        <li><a href="#story" data-toggle="tab">進行中アニメ一覧</a></li>
+        <li><a href="#anime" data-toggle="tab">作品一覧</a></li>
+      </ul>
+      <div class="tab-content">
+        <div class="tab-pane fade in active" id="cut">
+          <table class="table table-bordered table-striped table-hover table-condensed" id="cut_list">
+            <thead>
+              <tr class="cneter-cell">
+                <th>作品</th>
+                <th>パート</th>
+                <th>内容</th>
+                <th>締切</th>
+              </tr>
+            </thead>
+            <tbody>
+
+            </tbody>
+          </table>
+        </div>
+
+        <div class="tab-pane fade" id="story">
+          <table class="table table-bordered table-striped table-hover table-condensed" id="story_list">
+            <thead>
+              <tr class="cneter-cell">
+                <th>作品</th>
+                <th>全体の進行状況</th>
+                <th>監督</th>
+                <th>締切</th>
+              </tr>
+            </thead>
+            <tbody>
+
+            </tbody>
+          </table>
+        </div>
+
+        <div class="tab-pane fade" id="anime">
+          <table class="table table-bordered table-striped table-hover table-condensed" id="anime_list">
+            <thead>
+              <tr class="cneter-cell">
+                <th>作品</th>
+                <th>総話数</th>
+                <th>責任者</th>
+                <th>作成日時</th>
+              </tr>
+            </thead>
+            <tbody>
+              <% @animes.each do |anime| %>
+                <% anime.owner = User.new( :nick_name => '<不明>' ) if anime.owner == nil %>
+                <tr>
+                  <td style="font-weight:bold;"><%= link_to( anime.title, '#', { :onClick => 'return show_description(' + anime.id.to_s + ');' } ) %></td>
+                  <td><%= anime.story_number %></td>
+                  <td style="text-align:center;"><%= anime.owner.name %></td>
+                  <td style="text-align:center;"><%= anime.created_at.strftime( '%Y.%m.%d %H:%M:%S' ) %></td>
+                </tr>
+              <% end %>
+            </tbody>
+          </table>
+
+          <div class="well well-small anime_description">
+            アニメのタイトルをクリックすると概要が表示されます。
+          </div>
+          <% @animes.each do |anime| %>
+            <div class="well well-small anime_description" style="display:none;" id="anime_<%= anime.id %>">
+              <%= raw anime.description.gsub(/\n/,'<br />') %>
+            </div>
+          <% end %>
+
+        </div>
+      </div><!-- /tab-content -->
+
     </div>
   </div><!-- /row-fluid -->
 </div><!-- /container -->

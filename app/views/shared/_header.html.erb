@@ -28,7 +28,6 @@
           <% end %>
 
           <% if session[:is_login] == true %>
-            <li class="<%= ( controller == "anime" ) ? "active" : "" %>"><%= link_to( "アニメ一覧", { :controller => '/anime' } ) %></li>
 
             <% # 設定メニュー %>
             <li class="dropdown">

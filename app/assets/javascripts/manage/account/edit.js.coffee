@@ -1,8 +1,9 @@
-del_confirm = ->
+@del_confirm = ->
   if confirm("アカウントを削除します。よろしいですか?")
     true
   else
     false
+
 $(document).ready ->
   $("#frmEditAccount").validate
     errorClass: "error"
