@@ -1,0 +1,91 @@
+<%
+  # アニメ管理ページ
+
+%>
+
+<div class="container">
+  <%= render :partial => 'breadcrumb' %>
+
+  <div class="row-fluid" style="margin-top:10px;">
+    <ul class="nav nav-tabs">
+      <li class="active"><a href="#enabled" data-toggle="tab">進行中のアニメ</a></li>
+      <li><a href="#finished" data-toggle="tab">終了済のアニメ</a></li>
+      <li><a href="#disabled" data-toggle="tab">無効なアニメ</a></li>
+    </ul>
+    <div class="tab-content">
+      <div class="tab-pane fade in active" id="enabled">
+        <table class="table table-bordered table-striped table-hover table-condensed" id="enabled_anime_list">
+          <thead>
+            <tr class="center-cell">
+              <th>タイトル</th>
+              <th>話数</th>
+              <th>責任者</th>
+              <th>作成日時</th>
+            </tr>
+          </thead>
+          <tbody>
+            <% @animes.each do |anime| %>
+              <% next if anime.status != Anime::STATUS_ENABLED %>
+              <tr>
+                <td><%= link_to( raw( '<i class="icon-edit"></i> ' ) + anime.title, { :action => 'edit', :id => anime.id } ) %></td>
+                <td><%= anime.story_number %></td>
+                <td><%= anime.owner.name %></td>
+                <td style="text-align:center;"><%= anime.created_at.strftime( '%Y.%m.%d %H:%M:%S' ) %></td>
+              </tr>
+            <% end %>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="tab-pane fade" id="finished">
+        <table class="table table-bordered table-striped table-hover table-condensed" id="finished_anime_list">
+          <thead>
+            <tr class="center-cell">
+              <th>タイトル</th>
+              <th>話数</th>
+              <th>責任者</th>
+              <th>作成日時</th>
+            </tr>
+          </thead>
+          <tbody>
+            <% @animes.each do |anime| %>
+              <% next if anime.status != Anime::STATUS_FINISHED %>
+              <tr>
+                <td><%= link_to( raw( '<i class="icon-edit"></i> ' ) + anime.title, { :action => 'edit', :id => anime.id } ) %></td>
+                <td><%= anime.story_number %></td>
+                <td><%= anime.owner.name %></td>
+                <td style="text-align:center;"><%= anime.created_at.strftime( '%Y.%m.%d %H:%M:%S' ) %></td>
+              </tr>
+            <% end %>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="tab-pane fade" id="disabled">
+        <table class="table table-bordered table-striped table-hover table-condensed" id="disabled_anime_list">
+          <thead>
+            <tr class="center-cell">
+              <th>タイトル</th>
+              <th>話数</th>
+              <th>責任者</th>
+              <th>作成日時</th>
+            </tr>
+          </thead>
+          <tbody>
+            <% @animes.each do |anime| %>
+              <% next if anime.status != Anime::STATUS_DISABLED %>
+              <tr>
+                <td><%= link_to( raw( '<i class="icon-edit"></i> ' ) + anime.title, { :action => 'edit', :id => anime.id } ) %></td>
+                <td><%= anime.story_number %></td>
+                <td><%= anime.owner.name %></td>
+                <td style="text-align:center;"><%= anime.created_at.strftime( '%Y.%m.%d %H:%M:%S' ) %></td>
+              </tr>
+            <% end %>
+          </tbody>
+        </table>
+      </div>
+
+    </div>
+  </div>
+</div>
+

@@ -1,0 +1,66 @@
+<%
+  # アニメ情報編集ページ
+
+  anime_statuses = Anime.statuses
+
+  owners = Hash.new
+  @users.each do |user|
+    owners[user.name] = user.id
+  end
+
+%>
+                     
+<div class="container">
+  <%= render :partial => 'breadcrumb' %>
+
+  <div class="row-fluid">
+    <% if @error != nil %>
+      <div class="alert alert-danger"><i class="icon-info-sign"></i> <%= @error %></div>
+    <% end %>
+    <% if @info != nil %>
+      <div class="alert alert-info"><i class="icon-info-sign"></i> <%= @info %></div>
+    <% end %>
+    <%= form_tag( { :controller => '/manage/anime', :action => 'edit', :id => @edit_anime.id }, { :class => 'form-horizontal', :id => 'frmEditAnime' } ) do %>
+      <div class="control-group">
+        <label class="control-label" for="inputTitle">タイトル</label>
+        <div class="controls">
+          <%= text_field_tag( 'title', @edit_anime.title, { :id => 'inputTitle', :class => 'span5' } ) %>
+        </div>
+      </div>
+      <div class="control-group">
+        <label class="control-label" for="inputStoryNumber">予定話数</label>
+        <div class="controls">
+          <%= text_field_tag( 'story_number', @edit_anime.story_number, { :id => 'inputStoryNumber', :class => 'span1' } ) %>
+        </div>
+      </div>
+      <div class="control-group">
+        <label class="control-label" for="inputOwner">責任者</label>
+        <div class="controls">
+          <%= select_tag( 'owner_id', options_for_select( owners, @edit_anime.owner_id ), { :class => 'span3' } ) %>
+        </div>
+      </div>
+      <div class="control-group">
+        <label class="control-label" for="inputDescription">説明</label>
+        <div class="controls">
+          <%= text_area_tag( 'description', @edit_anime.description.gsub( /<br( \/)?>/, "\n" ), { :id => 'inputDescription', :class => 'span12', :rows => 8 } ) %>
+        </div>
+      </div>
+      <div class="control-group">
+        <label class="control-label" for="inputStatus">アニメ状態</label>
+        <div class="controls">
+          <%= select_tag( 'status', options_for_select( anime_statuses, :selected => @edit_anime.status ), { :class => 'span3', :id => 'inputStatus' } ) %>
+        </div>
+      </div>
+      <%= hidden_field_tag( 'mode', 'edit' ) %>
+      <div class="control-group">
+        <div class="controls">
+          <%= submit_tag( '保存する', { :class => 'btn btn-success btn-bold' } ) %>
+          <%= submit_tag( '削除する', { :class => 'btn btn-danger btn-bold', :onClick => 'return del_confirm();' } ) %>
+          <%= link_to( 'アニメ一覧へ戻る', { :controller => '/manage/anime' }, { :class => 'btn btn-bold' } ) %>
+        </div>
+      </div>
+    <% end %>
+
+  </div>
+</div>
+

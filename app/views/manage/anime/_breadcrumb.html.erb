@@ -1,0 +1,24 @@
+<%
+  # アニメ管理 パンくずメニュー
+
+%>
+
+<div class="row-fluid" style="margin-top:10px;">
+  <ul class="breadcrumb">
+    <li>[アニメの管理] <span class="divider">:</span></li>
+    <% if params[:action] != 'index' %>
+      <li><%= link_to( 'アニメ一覧', { :action => 'index' } ) %> <span class="divider">/</span></li>
+      <% if params[:action] == 'edit' %>
+        <li class="active">アニメ情報の編集</li>
+      <% elsif params[:action] == 'new' %>
+        <li class="active">アニメの新規作成</li>
+      <% end %>
+    <% else %>
+      <li class="active">アニメ一覧</li>
+    <% end %>
+
+    <li class="pull-right" style="margin-top:-5px;">
+      <%= link_to( 'アニメの新規作成', { :action => 'new' }, { :class => 'btn btn-bold btn-primary' } ) %>
+    </li>
+  </ul>
+</div>

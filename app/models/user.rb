@@ -96,6 +96,17 @@ class User < ActiveRecord::Base
 
   end
 
+  # 有効な全てのアカウントを取得する。
+  #
+  # === 返り値
+  # [array(User)] ユーザオブジェクトの配列
+  #
+  def self.find_all_enabled
+    users = User.find( :all, :conditions => { :account_status => STATUS_ENABLED } )
+    return users
+
+  end
+
   # ログインID と パスワード から、認証を行う。
   #
   # === 引数
