@@ -27,7 +27,7 @@ class User < ActiveRecord::Base
 
   # アカウント種別 一般ユーザ
   TYPE_USER = 0
-
+  
   # アカウント種別 システム管理者
   TYPE_ADMIN = 100
 
@@ -44,8 +44,8 @@ class User < ActiveRecord::Base
   #
   def self.account_types
     return {
-      '一般ユーザ' => TYPE_USER,
-      '管理者'     => TYPE_ADMIN
+      '一般ユーザ'       => TYPE_USER,
+      'システム管理者'   => TYPE_ADMIN
     }
 
   end
@@ -202,7 +202,7 @@ class User < ActiveRecord::Base
   #
   def type_name
     return '一般ユーザ' if self.account_type == TYPE_USER
-    return '管理者' if self.account_type == TYPE_ADMIN
+    return 'システム管理者' if self.account_type == TYPE_ADMIN
     return '不明'
 
   end
