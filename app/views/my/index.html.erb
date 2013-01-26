@@ -1,0 +1,18 @@
+<%
+  # マイページ
+
+
+%>
+
+<div class="container" style="margin-top:22px;">
+  <div class="row-fluid">
+    <div class="span12">
+      <h4>ようこそ、<%= @display_name %> さん。</h4>
+      <div style="margin-top:-10px;">
+        <% if @user.account_type == User::TYPE_ADMIN %>
+          <span style="font-size:0.9em;color:#CC7744;font-weight:bold;">管理者としてログインしています。</span>
+        <% end %>
+      </div>
+    </div>
+  </div><!-- /row-fluid -->
+</div><!-- /container -->

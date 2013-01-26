@@ -1,0 +1,64 @@
+<%
+  # トップページ
+
+%>
+
+<div class="row-fluid" style="margin-bottom: 20px; margin-top: 20px;">
+  <div class="span12">
+    <div style="margin:0 auto;text-align:center;width:800px;height:140px;background-color:#EEF3FF;">画像ロゴ</div>
+    <%# <%= image_tag( "top.jpg", :size => "600x140", :alt => "ロゴ" ) %>
+  </div>
+</div><!-- row-fluid -->
+
+<div class="container">
+  <div class="row-fluid">
+    <div class="span12">
+      <div class="span6">
+        <div>
+          <h2>Skeeter とは</h2>
+          　Skeeter とは、アニメの進行管理を行うためのWebソリューションです。<br />
+          <br />
+        </div>
+      </div><!-- 説明 -->
+
+      <div class="span6">
+        <% if session[:is_login] != true %>
+          <div class="row-fluid">
+            <h4> Skeeter ログイン </h4>
+            <% if @error != nil %>
+              <div class="alert alert-danger"><i class="icon-remove"></i> <%= raw( @error ) %></div>
+            <% end %>
+            <%= form_tag( { :controller => "/auth", :action => "login" }, { :class => "form-horizontal", :id => "frmLogin" } ) do %>
+              <div class="control-group">
+                <label class="control-label" for="inputLoginId">ログインID</label>
+                <div class="controls">
+                  <%= text_field_tag( "login_id", nil, { :id => "inputLoginId", :placeholder => "ログインID" } ) %>
+                </div>
+              </div>
+              <div class="control-group">
+                <label class="control-label" for="inputPassword">パスワード</label>
+                <div class="controls">
+                  <%= password_field_tag( "password", nil, { :id => "inputPassword", :placeholder => "パスワード" } ) %>
+                </div>
+              </div>
+              <div class="control-group">
+                <div class="controls">
+                  <%= submit_tag( "ログイン", { :class => "btn btn-info btn-bold" } ) %>
+                </div>
+              </div>
+            <% end %>
+          </div><!-- row-fluid -->
+        <% end %>
+        
+        <div class="row-fluid">
+          <h4> お知らせ </h4>
+          <pre>現在、テスト運用中です。
+お気づきの点がございましたら、お気軽にお問い合わせください。</pre>
+        </div><!-- row-fluid -->
+      </div>
+
+    </div><!-- span12 -->
+  </div><!-- row-fluid -->
+</div><!-- container -->
+
+

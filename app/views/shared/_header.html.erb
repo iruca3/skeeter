@@ -5,64 +5,72 @@
 
 %>
 
-<div class="navbar navbar-fixed-top">
+<div class="navbar navbar-fluid-top">
   <div class="navbar-inner">
-    <div class="container">
+    <div class="container-fluid">
       <% if ENV['RAILS_ENV'] == "development" %>
         <div style="float:right;width:100px;background-color:red;color:white;font-weight:bold;font-size:1.5em;height:20px;padding-top:4px;margin-top:7px;text-align:center;">開発環境</div>
       <% end %>
 
+      <a class="btn btn-navbar" data-target=".nav-collapse" data-toggle="collapse">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </a>
+
       <%= link_to( "Skeeter", { :controller => ( session[:is_login] == true ? '/my' : '/top' ) }, { :class => "brand" } ) %>
-      <ul class="nav">
-        <% if session[:is_login] != true %>
-          <li class="<%= ( controller == "top" && action == "index" ) ? "active" : "" %>"><%= link_to( "トップ", { :controller => '/top' } ) %></li>
-        <% else %>
-          <li class="<%= ( controller == "my" ) ? "active" : "" %>"><%= link_to( "マイページ", { :controller => '/my' } ) %></li>
-        <% end %>
+      <div class="container-fluid nav-collapse">
+        <ul class="nav">
+          <% if session[:is_login] != true %>
+            <li class="<%= ( controller == "top" && action == "index" ) ? "active" : "" %>"><%= link_to( "トップ", { :controller => '/top' } ) %></li>
+          <% else %>
+            <li class="<%= ( controller == "my" ) ? "active" : "" %>"><%= link_to( "マイページ", { :controller => '/my' } ) %></li>
+          <% end %>
 
-        <% if session[:is_login] == true %>
-          <li class="<%= ( controller == "anime" ) ? "active" : "" %>"><%= link_to( "アニメ一覧", { :controller => '/anime' } ) %></li>
+          <% if session[:is_login] == true %>
+            <li class="<%= ( controller == "anime" ) ? "active" : "" %>"><%= link_to( "アニメ一覧", { :controller => '/anime' } ) %></li>
 
-          <% # 設定メニュー %>
-          <li class="dropdown">
-            <a href="#" id="drop_setting" role="button" class="dropdown-toggle" data-toggle="dropdown">設定 <b class="caret"></b></a>
-            <ul class="dropdown-menu" role="menu" aria-labelledby="drop_setting">
-              <li><%= link_to( "プロフィール", { :controller => '/account', :action => 'edit' } ) %></li>
-              <li><%= link_to( "各種通知", { :controller => '/account', :action => 'edit' } ) %></li>
-            </ul>
-          </li>
-
-          <% # ヘルプメニュー %>
-          <li class="dropdown">
-            <a href="#" id="drop_help" role="button" class="dropdown-toggle" data-toggle="dropdown">ヘルプ <b class="caret"></b></a>
-            <ul class="dropdown-menu" role="menu" aria-labelledby="drop_help">
-              <li><%= link_to( "使い方", { :controller => '/top', :action => 'howto' } ) %></li>
-              <li><%= link_to( "お問い合わせ", { :controller => '/top', :action => 'contact' } ) %></li>
-              <li class="divider"></li>
-              <li><%= link_to( "ログアウト", { :controller => '/auth', :action => 'logout' } ) %></li>
-            </ul>
-          </li>
-
-          <% # 管理メニュー %>
-          <% if [ User::TYPE_PROMOTER, User::TYPE_ADMIN, User::TYPE_CONTRIBUTOR ].index( @user.account_type ) != nil  %>
+            <% # 設定メニュー %>
             <li class="dropdown">
-              <a href="#" id="drop_manage" role="button" class="dropdown-toggle" data-toggle="dropdown" style="font-weight:bold;color:#994411;">管理メニュー <b class="caret"></b></a>
-              <ul class="dropdown-menu" role="menu" aria-labelledby="drop_manage">
-                <% if @user.account_type == User::TYPE_ADMIN %>
-                  <li><%= link_to( "アニメの管理", { :controller => '/manage/anime' } ) %></li>
-                  <li class="divider"></li>
-                  <li><%= link_to( "Skeeter アカウントの管理", { :controller => '/manage/account' } ) %></li>
-                  <li><%= link_to( "Skeeter システム設定", { :controller => '/manage/system' } ) %></li>
-                <% end %>
+              <a href="#" id="drop_setting" role="button" class="dropdown-toggle" data-toggle="dropdown">設定 <b class="caret"></b></a>
+              <ul class="dropdown-menu" role="menu" aria-labelledby="drop_setting">
+                <li><%= link_to( "プロフィール", { :controller => '/account', :action => 'edit' } ) %></li>
+                <li><%= link_to( "各種通知", { :controller => '/account', :action => 'edit' } ) %></li>
               </ul>
             </li>
+
+            <% # ヘルプメニュー %>
+            <li class="dropdown">
+              <a href="#" id="drop_help" role="button" class="dropdown-toggle" data-toggle="dropdown">ヘルプ <b class="caret"></b></a>
+              <ul class="dropdown-menu" role="menu" aria-labelledby="drop_help">
+                <li><%= link_to( "使い方", { :controller => '/top', :action => 'howto' } ) %></li>
+                <li><%= link_to( "お問い合わせ", { :controller => '/top', :action => 'contact' } ) %></li>
+                <li class="divider"></li>
+                <li><%= link_to( "ログアウト", { :controller => '/auth', :action => 'logout' } ) %></li>
+              </ul>
+            </li>
+
+            <% # 管理メニュー %>
+            <% if [ User::TYPE_ADMIN ].index( @user.account_type ) != nil  %>
+              <li class="dropdown">
+                <a href="#" id="drop_manage" role="button" class="dropdown-toggle" data-toggle="dropdown" style="font-weight:bold;color:#994411;">管理メニュー <b class="caret"></b></a>
+                <ul class="dropdown-menu" role="menu" aria-labelledby="drop_manage">
+                  <% if @user.account_type == User::TYPE_ADMIN %>
+                    <li><%= link_to( "アニメの管理", { :controller => '/manage/anime' } ) %></li>
+                    <li class="divider"></li>
+                    <li><%= link_to( "Skeeter アカウントの管理", { :controller => '/manage/account' } ) %></li>
+                    <li><%= link_to( "Skeeter システム設定", { :controller => '/manage/system' } ) %></li>
+                  <% end %>
+                </ul>
+              </li>
+            <% end %>
+            
+          <% else %>
+            <li class="<%= ( controller == "top" && action == "howto" ) ? "active" : "" %>"><%= link_to( "使い方", { :controller => '/top', :action => 'howto' } ) %></li>
+            <li class="<%= ( controller == "top" && action == "contact" ) ? "active" : "" %>"><%= link_to( "お問い合わせ", { :controller => '/top', :action => 'contact' } ) %></li>
           <% end %>
-          
-        <% else %>
-          <li class="<%= ( controller == "top" && action == "howto" ) ? "active" : "" %>"><%= link_to( "使い方", { :controller => '/top', :action => 'howto' } ) %></li>
-          <li class="<%= ( controller == "top" && action == "contact" ) ? "active" : "" %>"><%= link_to( "お問い合わせ", { :controller => '/top', :action => 'contact' } ) %></li>
-        <% end %>
-      </ul>
+        </ul>
+      </div><!--/.nav-collapse -->
     </div>
   </div>
 </div><!-- navbar -->

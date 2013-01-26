@@ -23,6 +23,8 @@ class User < ActiveRecord::Base
   validates :login_id, :presence => true, :uniqueness => true
   validates :password, :presence => true
 
+  attr_accessible :id, :login_id, :password, :mail_addr, :nick_name, :real_name, :phone_number, :account_type, :account_status, :last_login, :created_at, :updated_at
+
   # アカウント種別 一般ユーザ
   TYPE_USER = 0
 
@@ -133,6 +135,33 @@ class User < ActiveRecord::Base
 
   end
 
+  # ユーザアカウントを作成する。
+  # 引数で指定された情報から、新規にユーザをデータベースへ追加する。
+  #
+  # === 引数
+  # [login_id] 希望のログインID
+  # [password] パスワード
+  #
+  # === 返り値
+  # [User] 追加に成功した場合、作成したユーザオブジェクトを返す。
+  # [false] 追加に失敗
+  #
+  def self.create_user( login_id, password, type = TYPE_USER, mail_addr = '', nick_name = '', real_name = '' )
+    new_user = self.create(
+      :login_id       => login_id,
+      :password       => make_password_hash( password ),
+      :account_type   => type,
+      :mail_addr      => mail_addr,
+      :nick_name      => nick_name,
+      :real_name      => real_name,
+      :account_status => STATUS_ENABLED
+    )
+
+    return false if new_user.new_record?
+    return new_user
+
+  end
+
   # 指定されたログインIDが存在しているかチェックする。
   #
   # === 引数
@@ -200,6 +229,5 @@ class User < ActiveRecord::Base
     return user
 
   end
-end
 
 end

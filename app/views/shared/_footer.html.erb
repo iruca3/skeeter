@@ -13,13 +13,4 @@
   </div>
 </div>
 
-  <%= javascript_include_tag "application" %>
-
-<% if controller == 'manage/account' && action == 'index' %>
-  <%= javascript_include_tag %w{ manage/account/index } %>
-<% elsif controller == 'manage/account' && action == 'edit' %>
-  <%= javascript_include_tag %w{ manage/account/edit } %>
-<% elsif controller == 'manage/account' && action == 'new' %>
-  <%= javascript_include_tag %w{ manage/account/new } %>
-<% end %>
 
