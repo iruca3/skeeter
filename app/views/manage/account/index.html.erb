@@ -35,7 +35,23 @@
                 end
               %>
               <tr>
-                <td><%= link_to( raw( '<i class="icon-edit"></i> ' ) + user.login_id, { :action => 'edit', :id => user.id } ) %></td>
+                <td>
+                  <%= link_to( raw( '<i class="icon-edit"></i> ' ) + user.login_id, { :action => 'edit', :id => user.id } ) %>
+                  <% if user.twitter != '' && user.twitter != nil %>
+                    <a href="http://twitter.com/<%= user.twitter %>" target="_blank" class="pull-right">
+                      <img src="/assets/twitter_icon.png" width=16 height=16>
+                    </a>
+                  <% else %>
+                    <span style="width:16px;height:16px;" class="pull-right"></span>
+                  <% end %>
+                  <% if user.pixiv != '' && user.pixiv != nil %>
+                    <a href="http://www.pixiv.net/member.php?id=<%= user.pixiv %>" target="_blank" class="pull-right" style="margin-right:2px;">
+                      <img src="/assets/pixiv_icon.png" width=16 height=16>
+                    </a>
+                  <% else %>
+                    <span style="width:16px;height:16px;margin-right:2px;" class="pull-right"></span>
+                  <% end %>
+                </td>
                 <td><%= user.mail_addr %></td>
                 <td><%= user.nick_name %></td>
                 <td><%= user.real_name %></td>

@@ -11,6 +11,8 @@
 # * *mail_addr*      : メールアドレス
 # * *nick_name*      : ニックネーム(表示用)
 # * *real_name*      : 実名
+# * *twitter*        : Twitter ID
+# * *pixiv*          : Pixiv ID
 # * *phone_number*   : 電話番号
 # * *account_type*   : アカウントの種別(TYPE_***)
 # * *account_status* : アカウントの状態(STATUS_***)
@@ -23,7 +25,7 @@ class User < ActiveRecord::Base
   validates :login_id, :presence => true, :uniqueness => true
   validates :password, :presence => true
 
-  attr_accessible :id, :login_id, :password, :mail_addr, :nick_name, :real_name, :phone_number, :account_type, :account_status, :last_login, :created_at, :updated_at
+  attr_accessible :id, :login_id, :password, :mail_addr, :nick_name, :real_name, :twitter, :pixiv, :phone_number, :account_type, :account_status, :last_login, :created_at, :updated_at
 
   # アカウント種別 一般ユーザ
   TYPE_USER = 0
@@ -157,7 +159,7 @@ class User < ActiveRecord::Base
   # [User] 追加に成功した場合、作成したユーザオブジェクトを返す。
   # [false] 追加に失敗
   #
-  def self.create_user( login_id, password, type = TYPE_USER, mail_addr = '', nick_name = '', real_name = '' )
+  def self.create_user( login_id, password, type = TYPE_USER, mail_addr = '', nick_name = '', real_name = '', twitter = '', pixiv = '' )
     new_user = self.create(
       :login_id       => login_id,
       :password       => make_password_hash( password ),
@@ -165,6 +167,8 @@ class User < ActiveRecord::Base
       :mail_addr      => mail_addr,
       :nick_name      => nick_name,
       :real_name      => real_name,
+      :twitter        => twitter,
+      :pixiv          => pixiv,
       :account_status => STATUS_ENABLED
     )
 

@@ -54,6 +54,18 @@
         </div>
       </div>
       <div class="control-group">
+        <label class="control-label" for="inputTwitter">Twitter ID</label>
+        <div class="controls">
+          <%= text_field_tag( 'twitter', @new_user.twitter, { :id => 'inputTwitter' } ) %>
+        </div>
+      </div>
+      <div class="control-group">
+        <label class="control-label" for="inputPixiv">Pixiv ID</label>
+        <div class="controls">
+          <%= text_field_tag( 'pixiv', @new_user.pixiv, { :id => 'inputPixiv' } ) %>
+        </div>
+      </div>
+      <div class="control-group">
         <label class="control-label" for="inputPhoneNumber">電話番号</label>
         <div class="controls">
           <%= text_field_tag( 'phone_number', @new_user.phone_number, { :id => 'inputPhoneNumber' } ) %>

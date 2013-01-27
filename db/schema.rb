@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130126183640) do
+ActiveRecord::Schema.define(:version => 20130127140238) do
 
   create_table "animes", :force => true do |t|
     t.integer  "owner_id"
@@ -46,6 +46,8 @@ ActiveRecord::Schema.define(:version => 20130126183640) do
     t.datetime "last_login"
     t.integer  "account_type"
     t.integer  "account_status"
+    t.string   "twitter"
+    t.string   "pixiv"
   end
 
 end
