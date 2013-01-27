@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-# = ストーリーモデル
+# = エピソードモデル
 # Author:: Dolphin
 # Date:: 2013.01.27
 #
@@ -10,7 +10,7 @@
 # * *id*             : 通し番号
 # * *anime_id*       : アニメID
 # * *director_id*    : 監督のユーザID
-# * *episode*        : 何話目か
+# * *episode_number* : 何話目か
 # * *title*          : タイトル
 # * *description*    : 説明
 # * *deadline*       : 締切
@@ -18,11 +18,11 @@
 # * *created_at*     : 作成日時
 # * *updated_at*     : 更新日時
 #
-class Story < ActiveRecord::Base
+class Episode < ActiveRecord::Base
   after_initialize :default_values
-  attr_accessible :id, :anime_id, :director_id, :episode, :title, :description, :deadline, :created_at, :updated_at
+  attr_accessible :id, :anime_id, :director_id, :episode_number, :title, :description, :deadline, :status, :created_at, :updated_at
   has_many :cut
-  has_many :story_member
+  has_many :episode_member
   belongs_to :director, :foreign_key => 'director_id', :class_name => 'user'
   belongs_to :anime, :foreign_key => 'anime_id'
 
@@ -38,10 +38,10 @@ class Story < ActiveRecord::Base
   # 状態 中止
   STATUS_ABORTED = 3
 
-  # ストーリーの状態のハッシュ配列を返す。
+  # エピソードの状態のハッシュ配列を返す。
   #
   # === 返り値
-  # [Hash] { 名称 => 値 } の形で、ストーリー状態一覧を返す。
+  # [Hash] { 名称 => 値 } の形で、エピソード状態一覧を返す。
   #
   def self.statuses
     return {
@@ -61,30 +61,30 @@ class Story < ActiveRecord::Base
     
   end
 
-  # ストーリーを作成する。
+  # エピソードを作成する。
   #
   # == 引数
   # [anime] アニメオブジェクト
-  # [story_name] ストーリー名
+  # [episode_name] エピソード名
   #
   public
-  def self.add( anime, story_name )
-    new_story = self.create(
+  def self.add( anime, episode_name )
+    new_episode = self.create(
       :anime_id => anime.id,
       :director_id => nil,
-      :episode => nil,
-      :title => story_name,
+      :episode_number => nil,
+      :title => episode_name,
       :description => '',
       :status => STATUS_WAITING,
       :deadline => nil
     )
 
-    return nil if new_story.new_record?
-    return new_story
+    return nil if new_episode.new_record?
+    return new_episode
 
   end
 
-  # 関係者からアニメを取得
+  # 関係者からエピソードを取得
   def self.find_by_member( user )
     return Array.new
 

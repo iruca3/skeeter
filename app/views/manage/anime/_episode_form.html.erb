@@ -1,0 +1,48 @@
+<%
+  # エピソード情報編集フォーム
+
+  directors = Hash.new
+  users = User.find_all_enabled()
+  users.each do |user|
+    directors[user.name] = user.id
+  end
+
+  episode_statuses = Episode.statuses
+
+%>
+<div class="control-group">
+  <label class="control-label" for="inputTitle">タイトル</label>
+  <div class="controls">
+    <%= text_field_tag( 'title', @episode.title, { :id => 'inputTitle', :class => 'span5' } ) %>
+  </div>
+</div>
+<div class="control-group">
+  <label class="control-label" for="inputEpisodeNumber">エピソード番号(何話目か)</label>
+  <div class="controls">
+    <%= text_field_tag( 'episode_number', @episode.episode_number, { :id => 'inputEpisodeNumber', :class => 'span1' } ) %>
+  </div>
+</div>
+<div class="control-group">
+  <label class="control-label" for="inputDirector">監督</label>
+  <div class="controls">
+    <%= select_tag( 'director_id', options_for_select( directors, @episode.director_id ), { :class => 'span3' } ) %>
+  </div>
+</div>
+<div class="control-group">
+  <label class="control-label" for="inputDescription">説明</label>
+  <div class="controls">
+    <%= text_area_tag( 'description', @episode.description.gsub( /<br( \/)?>/, "\n" ), { :id => 'inputDescription', :class => 'span12', :rows => 8 } ) %>
+  </div>
+</div>
+<div class="control-group">
+  <label class="control-label" for="inputDeadline">締切</label>
+  <div class="controls">
+    <input type="datetime" name="deadline" class="span4" id="inputDeadline" value="<%= ( @episode.deadline != nil ? @episode.deadline.strftime( '%Y.%m.%d %H:%M:%S' ) : '' ) %>" placeholder="例: <%= ( DateTime.now + 7 ).strftime( '%Y.%m.%d %H:%M:%S' ) %>" />
+  </div>
+</div>
+<div class="control-group">
+  <label class="control-label" for="inputStatus">状態</label>
+  <div class="controls">
+    <%= select_tag( 'status', options_for_select( episode_statuses, :selected => @episode.status ), { :class => 'span3', :id => 'inputStatus' } ) %>
+  </div>
+</div>

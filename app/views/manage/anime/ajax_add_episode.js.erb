@@ -1,0 +1,6 @@
+<% if @episode == nil %>
+  alert('追加に失敗しました。');
+<% else %>
+  $('#frmAddEpisode').before('<li><%= link_to( @episode.title, { :action => 'edit', :episode_id => @episode.id } ) %></li>');
+  $('#inputEpisodeName').val('');
+<% end %>

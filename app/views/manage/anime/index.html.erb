@@ -10,7 +10,7 @@
     <ul class="nav nav-tabs">
       <li class="active"><a href="#enabled" data-toggle="tab">進行中のアニメ</a></li>
       <li><a href="#finished" data-toggle="tab">終了済のアニメ</a></li>
-      <li><a href="#disabled" data-toggle="tab">無効なアニメ</a></li>
+      <li><a href="#frozen" data-toggle="tab">凍結したアニメ</a></li>
     </ul>
     <div class="tab-content">
       <div class="tab-pane fade in active" id="enabled">
@@ -18,6 +18,7 @@
           <thead>
             <tr class="center-cell">
               <th>タイトル</th>
+              <th>エピソード</th>
               <th>話数</th>
               <th>責任者</th>
               <th>作成日時</th>
@@ -29,7 +30,8 @@
               <% anime.owner = User.new( :nick_name => '<不明>' ) if anime.owner == nil %>
               <tr>
                 <td><%= link_to( raw( '<i class="icon-edit"></i> ' ) + anime.title, { :action => 'edit', :id => anime.id } ) %></td>
-                <td><%= anime.story_number %></td>
+                <td><%= anime.episode_status %></td>
+                <td><%= anime.total_episode_number %></td>
                 <td><%= anime.owner.name %></td>
                 <td style="text-align:center;"><%= anime.created_at.strftime( '%Y.%m.%d %H:%M:%S' ) %></td>
               </tr>
@@ -43,6 +45,7 @@
           <thead>
             <tr class="center-cell">
               <th>タイトル</th>
+              <th>エピソード</th>
               <th>話数</th>
               <th>責任者</th>
               <th>作成日時</th>
@@ -53,7 +56,8 @@
               <% next if anime.status != Anime::STATUS_FINISHED %>
               <tr>
                 <td><%= link_to( raw( '<i class="icon-edit"></i> ' ) + anime.title, { :action => 'edit', :id => anime.id } ) %></td>
-                <td><%= anime.story_number %></td>
+                <td><%= anime.episode_status %></td>
+                <td><%= anime.total_episode_number %></td>
                 <td><%= anime.owner.name %></td>
                 <td style="text-align:center;"><%= anime.created_at.strftime( '%Y.%m.%d %H:%M:%S' ) %></td>
               </tr>
@@ -62,11 +66,12 @@
         </table>
       </div>
 
-      <div class="tab-pane fade" id="disabled">
-        <table class="table table-bordered table-striped table-hover table-condensed" id="disabled_anime_list">
+      <div class="tab-pane fade" id="frozen">
+        <table class="table table-bordered table-striped table-hover table-condensed" id="frozen_anime_list">
           <thead>
             <tr class="center-cell">
               <th>タイトル</th>
+              <th>エピソード</th>
               <th>話数</th>
               <th>責任者</th>
               <th>作成日時</th>
@@ -74,10 +79,11 @@
           </thead>
           <tbody>
             <% @animes.each do |anime| %>
-              <% next if anime.status != Anime::STATUS_DISABLED %>
+              <% next if anime.status != Anime::STATUS_FROZEN %>
               <tr>
                 <td><%= link_to( raw( '<i class="icon-edit"></i> ' ) + anime.title, { :action => 'edit', :id => anime.id } ) %></td>
-                <td><%= anime.story_number %></td>
+                <td><%= anime.episode_status %></td>
+                <td><%= anime.total_episode_number %></td>
                 <td><%= anime.owner.name %></td>
                 <td style="text-align:center;"><%= anime.created_at.strftime( '%Y.%m.%d %H:%M:%S' ) %></td>
               </tr>

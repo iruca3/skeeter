@@ -18,16 +18,16 @@
       <% end %>
       
       <ul class="nav nav-tabs">
-        <li class="<%= ( params[:id] == 0 ? 'active' : '' ) %>"><a href="#cut" data-toggle="tab">担当カット一覧</a></li>
-        <li class="<%= ( params[:id] == 1 ? 'active' : '' ) %>"><a href="#story" data-toggle="tab">進行中アニメ一覧</a></li>
-        <li class="<%= ( params[:id] == 2 ? 'active' : '' ) %>"><a href="#anime" data-toggle="tab">作品一覧</a></li>
+        <li class="<%= ( params[:id] == 0 ? 'active' : '' ) %>"><a href="#cut" data-toggle="tab">担当カット</a></li>
+        <li class="<%= ( params[:id] == 1 ? 'active' : '' ) %>"><a href="#episode" data-toggle="tab">進行中エピソード</a></li>
+        <li class="<%= ( params[:id] == 2 ? 'active' : '' ) %>"><a href="#anime" data-toggle="tab">アニメ</a></li>
       </ul>
       <div class="tab-content">
         <div class="tab-pane fade<%= ( params[:id] == 0 ? ' in active' : '' ) %>" id="cut">
           <table class="table table-bordered table-striped table-hover table-condensed" id="cut_list">
             <thead>
               <tr class="center-cell">
-                <th>作品</th>
+                <th>エピソード</th>
                 <th>パート</th>
                 <th>内容</th>
                 <th>締切</th>
@@ -39,11 +39,11 @@
           </table>
         </div>
 
-        <div class="tab-pane fade<%= ( params[:id] == 1 ? ' in active' : '' ) %>" id="story">
-          <table class="table table-bordered table-striped table-hover table-condensed" id="story_list">
+        <div class="tab-pane fade<%= ( params[:id] == 1 ? ' in active' : '' ) %>" id="episode">
+          <table class="table table-bordered table-striped table-hover table-condensed" id="episode_list">
             <thead>
               <tr class="center-cell">
-                <th>作品</th>
+                <th>エピソード</th>
                 <th>全体の進行状況</th>
                 <th>監督</th>
                 <th>締切</th>
@@ -59,7 +59,8 @@
           <table class="table table-bordered table-striped table-hover table-condensed" id="anime_list">
             <thead>
               <tr class="center-cell">
-                <th>作品</th>
+                <th>タイトル</th>
+                <th>エピソード</th>
                 <th>総話数</th>
                 <th>責任者</th>
                 <th>作成日時</th>
@@ -71,7 +72,8 @@
                 <% anime.owner = User.new( :id => -1, :nick_name => '<不明>' ) if anime.owner == nil %>
                 <tr>
                   <td style="font-weight:bold;"><%= link_to( anime.title, '#', { :onClick => 'return show_description(' + anime.id.to_s + ');' } ) %></td>
-                  <td><%= anime.story_number %></td>
+                  <td><%= anime.episode_status %></td>
+                  <td><%= anime.total_episode_number %></td>
                   <td style="text-align:center;"><%= anime.owner.name %></td>
                   <td style="text-align:center;"><%= anime.created_at.strftime( '%Y.%m.%d %H:%M:%S' ) %></td>
                   <% if anime.owner.id == @user.id || @user.account_type == User::TYPE_ADMIN %>

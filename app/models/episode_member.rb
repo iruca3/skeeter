@@ -1,18 +1,18 @@
 # -*- coding: utf-8 -*-
 
-# = アニメ関係者モデル
+# = エピソード関係者モデル
 # Author:: Dolphin
 # Date:: 2013.01.28
 #
 # == フィールド
 # * *id*             : 通し番号
 # * *user_id*        : ユーザID
-# * *story_id*       : ストーリーID
+# * *episode_id*     : エピソードID
 # * *role*           : 役割(ROLE_***)
-class StoryMember < ActiveRecord::Base
-  attr_accessible :user_id, :story_id, :role
+class EpisodeMember < ActiveRecord::Base
+  attr_accessible :user_id, :episode_id, :role
   belongs_to :user, :foreign_key => 'user_id'
-  belongs_to :story, :foreign_key => 'story_id'
+  belongs_to :episode, :foreign_key => 'episode_id'
 
   # 役割 一般
   ROLE_GENERAL = 0

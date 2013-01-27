@@ -42,7 +42,7 @@ class Manage::AnimeController < ApplicationController
         # アカウント情報を保存する。
         @anime.title = params[:title]
         @anime.owner_id = params[:owner_id]
-        @anime.story_number = params[:story_number]
+        @anime.total_episode_number = params[:total_episode_number]
         @anime.status = params[:status]
         @anime.description = params[:description]
 
@@ -67,24 +67,24 @@ class Manage::AnimeController < ApplicationController
 
       end
 
-    elsif params[:mode] == 'edit_story'
-      @story = Story.find( params[:story_id] )
+    elsif params[:mode] == 'edit_episode'
+      @episode = Episode.find( params[:episode_id] )
       if params[:commit] == '保存する'
-        if @story != nil
-          @story.title = params[:title]
-          @story.director_id = params[:director_id]
-          @story.episode = params[:episode]
-          @story.description = params[:description]
-          @story.status = params[:status]
-          @story.deadline = params[:deadline]
+        if @episode != nil
+          @episode.title = params[:title]
+          @episode.director_id = params[:director_id]
+          @episode.episode_number = params[:episode_number]
+          @episode.description = params[:description]
+          @episode.status = params[:status]
+          @episode.deadline = params[:deadline]
 
-          if @story.title == ''
+          if @episode.title == ''
             @error = '入力値に不備があります。'
             return
 
           end
 
-          if @story.save
+          if @episode.save
             @info = 'アニメ情報を保存しました。'
 
           else
@@ -95,8 +95,8 @@ class Manage::AnimeController < ApplicationController
         end
 
       elsif params[:commit] == '削除する'
-      Story.destroy( params[:story_id] )
-      session['info'] = 'アニメ「' + @story.title + '」を削除しました。'
+      Episode.destroy( params[:episode_id] )
+      session['info'] = 'アニメ「' + @episode.title + '」を削除しました。'
         redirect_to :action => 'edit', :id => params[:id]
         return
 
@@ -104,10 +104,10 @@ class Manage::AnimeController < ApplicationController
 
     end
 
-    if params[:story_id] == '' || params[:story_id] == nil
-      params[:story_id] = @anime.story[0].id if @anime.story.count > 0
+    if params[:episode_id] == '' || params[:episode_id] == nil
+      params[:episode_id] = @anime.episode[0].id if @anime.episode.count > 0
     end
-    @story = Story.find( params[:story_id] ) if params[:story_id] != nil
+    @episode = Episode.find( params[:episode_id] ) if params[:episode_id] != nil
 
   end
 
@@ -122,7 +122,7 @@ class Manage::AnimeController < ApplicationController
       # アカウント情報を作成する。
       @anime.title = params[:title]
       @anime.owner_id = params[:owner_id]
-      @anime.story_number = params[:story_number]
+      @anime.total_episode_number = params[:total_episode_number]
       @anime.status = params[:status]
       @anime.description = params[:description]
 
@@ -148,11 +148,11 @@ class Manage::AnimeController < ApplicationController
 
 
   # アニメにストーリーを追加する。
-  def ajax_add_story
-    return if params[:story_name] == '' || params[:story_name] == nil
+  def ajax_add_episode
+    return if params[:episode_name] == '' || params[:episode_name] == nil
     @anime = Anime.find( params[:id] )
     return if @anime == nil
-    @story = Story.add( @anime, params[:story_name] )
+    @episode = Episode.add( @anime, params[:episode_name] )
 
   end
 
