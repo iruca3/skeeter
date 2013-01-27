@@ -83,4 +83,10 @@ class Story < ActiveRecord::Base
 
   end
 
+  # 関係者からアニメを取得
+  def self.find_by_member( user )
+    return Array.new
+
+  end
+
 end

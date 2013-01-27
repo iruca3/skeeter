@@ -17,8 +17,8 @@
           <thead>
             <tr class="center-cell">
               <th>ログインID</th>
-              <th>メールアドレス</th>
               <th>ニックネーム</th>
+              <th>メールアドレス</th>
               <th>氏名</th>
               <th>種別</th>
               <th>最終ログイン日時</th>
@@ -52,8 +52,8 @@
                     <span style="width:16px;height:16px;margin-right:2px;" class="pull-right"></span>
                   <% end %>
                 </td>
-                <td><%= user.mail_addr %></td>
                 <td><%= user.nick_name %></td>
+                <td><%= user.mail_addr %></td>
                 <td><%= user.real_name %></td>
                 <td style="text-align:center;"><%= user.type_name %></td>
                 <td style="text-align:center;"><%= last_login_str %></td>
@@ -68,8 +68,8 @@
           <thead>
             <tr class="center-cell">
               <th>ログインID</th>
-              <th>メールアドレス</th>
               <th>ニックネーム</th>
+              <th>メールアドレス</th>
               <th>氏名</th>
               <th>種別</th>
               <th>最終ログイン日時</th>
@@ -87,8 +87,8 @@
               %>
               <tr>
                 <td><%= link_to( raw( '<i class="icon-edit"></i> ' ) + user.login_id, { :controller => '/manage/account', :action => 'edit', :id => user.id } ) %></td>
-                <td><%= user.mail_addr %></td>
                 <td><%= user.nick_name %></td>
+                <td><%= user.mail_addr %></td>
                 <td><%= user.real_name %></td>
                 <td style="text-align:center;"><%= user.type_name %></td>
                 <td style="text-align:center;"><%= last_login_str %></td>

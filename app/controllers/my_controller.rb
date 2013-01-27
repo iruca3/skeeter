@@ -8,6 +8,7 @@ class MyController < ApplicationController
 
   def index
     @animes = Anime.find( :all )
+    @stories = Story.find_by_member( @user )
   end
 
 end

@@ -50,6 +50,22 @@
               <%= submit_tag( '追加', { :class => 'btn btn-primary btn-bold' } ) %>
             <% end %>
           </ul>
+        </div><!-- /nav -->
+
+        <div class="span8">
+          <% if @story == nil %>
+            ストーリーを追加するか、ストーリーを選択してください。
+          <% else %>
+            <%= form_tag( { :action => 'edit', :id => @anime.id, :story_id => @story.id }, { :id => 'frmEditStory' } ) do %>
+              <h4 class="headline" style="margin-top:0px;"><%= @anime.title %></h4>
+              <%= render :partial => 'story_form' %>
+              <%= hidden_field_tag( 'mode', 'edit_story' ) %>
+              <% if @user.id == @anime.owner_id %>
+                <%= submit_tag( '保存する', { :class => 'btn btn-primary btn-bold' } ) %>
+                <%= submit_tag( '削除する', { :class => 'btn btn-danger btn-bold' } ) %>
+              <% end %>
+            <% end %>
+          <% end %>
         </div>
       </div>
     </div>

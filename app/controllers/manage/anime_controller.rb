@@ -67,7 +67,38 @@ class Manage::AnimeController < ApplicationController
 
       end
 
+    elsif params[:mode] == 'edit_story'
+      @story = Story.find( params[:story_id] )
+      if @story != nil
+        @story.title = params[:title]
+        @story.director_id = params[:director_id]
+        @story.episode = params[:episode]
+        @story.description = params[:description]
+        @story.status = params[:status]
+        @story.deadline = params[:deadline]
+
+        if @story.title == ''
+          @error = '入力値に不備があります。'
+          return
+
+        end
+
+        if @story.save
+          @info = 'アニメ情報を保存しました。'
+
+        else
+          @error = 'アニメ情報の保存に失敗しました。'
+
+        end
+
+      end
+
     end
+
+    if params[:story_id] == '' || params[:story_id] == nil
+      params[:story_id] = @anime.story[0].id if @anime.story.count > 0
+    end
+    @story = Story.find( params[:story_id] ) if params[:story_id] != nil
 
   end
 

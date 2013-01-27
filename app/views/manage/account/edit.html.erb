@@ -40,7 +40,7 @@
       <div class="control-group">
         <label class="control-label" for="inputNickName">ニックネーム</label>
         <div class="controls">
-          <%= text_field_tag( 'nick_name', @edit_user.nick_name, { :id => 'inputNickName' } ) %>
+          <%= text_field_tag( 'nick_name', @edit_user.nick_name, { :id => 'inputNickName', :placeholder => '表示用に使われます。' } ) %>
         </div>
       </div>
       <div class="control-group">
@@ -52,13 +52,16 @@
       <div class="control-group">
         <label class="control-label" for="inputTwitter">Twitter ID</label>
         <div class="controls">
-          <%= text_field_tag( 'twitter', @edit_user.twitter, { :id => 'inputTwitter' } ) %>
+          <div class="input-prepend">
+            <span class="add-on">@</span>
+            <%= text_field_tag( 'twitter', @edit_user.twitter, { :id => 'inputTwitter', :placeholder => 'Username' } ) %>
+          </div>
         </div>
       </div>
       <div class="control-group">
         <label class="control-label" for="inputPixiv">Pixiv ID</label>
         <div class="controls">
-          <%= text_field_tag( 'pixiv', @edit_user.pixiv, { :id => 'inputPixiv' } ) %>
+          <%= text_field_tag( 'pixiv', @edit_user.pixiv, { :id => 'inputPixiv', :placeholder => '例: 12345' } ) %>
         </div>
       </div>
       <div class="control-group">
