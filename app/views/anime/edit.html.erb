@@ -58,7 +58,7 @@
               <h4 class="headline" style="margin-top:0px;"><%= @anime.title %></h4>
               <%= render :partial => 'story_form' %>
               <%= hidden_field_tag( 'mode', 'edit_story' ) %>
-              <% if @user.id == @anime.owner_id %>
+              <% if @user.id == @anime.owner_id || @user.account_type == User::TYPE_ADMIN %>
                 <%= submit_tag( '保存する', { :class => 'btn btn-primary btn-bold' } ) %>
                 <%= submit_tag( '削除する', { :class => 'btn btn-danger btn-bold', :onClick => 'return del_confirm();' } ) %>
               <% end %>

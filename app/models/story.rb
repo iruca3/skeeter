@@ -22,6 +22,7 @@ class Story < ActiveRecord::Base
   after_initialize :default_values
   attr_accessible :id, :anime_id, :director_id, :episode, :title, :description, :deadline, :created_at, :updated_at
   has_many :cut
+  has_many :story_member
   belongs_to :director, :foreign_key => 'director_id', :class_name => 'user'
   belongs_to :anime, :foreign_key => 'anime_id'
 
