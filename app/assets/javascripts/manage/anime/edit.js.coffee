@@ -1,5 +1,5 @@
 @del_confirm = ->
-  if confirm("アカウントを削除します。よろしいですか?")
+  if confirm("削除します。よろしいですか?")
     true
   else
     false

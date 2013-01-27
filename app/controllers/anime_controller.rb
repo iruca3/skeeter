@@ -13,6 +13,12 @@ class AnimeController < ApplicationController
       
     end
 
+    if session['info'] != nil
+      @info = session[:info]
+      session['info'] = nil
+      
+    end
+
     @anime = Anime.find( params[:id] )
 
     # アクセス権限チェック
@@ -48,27 +54,36 @@ class AnimeController < ApplicationController
       end
     elsif params[:mode] == 'edit_story'
       @story = Story.find( params[:story_id] )
-      if @story != nil
-        @story.title = params[:title]
-        @story.director_id = params[:director_id]
-        @story.episode = params[:episode]
-        @story.description = params[:description]
-        @story.status = params[:status]
-        @story.deadline = params[:deadline]
+      if params[:commit] == '保存する'
+        if @story != nil
+          @story.title = params[:title]
+          @story.director_id = params[:director_id]
+          @story.episode = params[:episode]
+          @story.description = params[:description]
+          @story.status = params[:status]
+          @story.deadline = params[:deadline]
 
-        if @story.title == ''
-          @error = '入力値に不備があります。'
-          return
+          if @story.title == ''
+            @error = '入力値に不備があります。'
+            return
+
+          end
+
+          if @story.save
+            @info = 'アニメ情報を保存しました。'
+
+          else
+            @error = 'アニメ情報の保存に失敗しました。'
+
+          end
 
         end
 
-        if @story.save
-          @info = 'アニメ情報を保存しました。'
-
-        else
-          @error = 'アニメ情報の保存に失敗しました。'
-
-        end
+      elsif params[:commit] == '削除する'
+        Story.destroy( params[:story_id] )
+        session['info'] = 'アニメ「' + @story.title + '」を削除しました。'
+        redirect_to :action => 'edit', :id => params[:id]
+        return
 
       end
 

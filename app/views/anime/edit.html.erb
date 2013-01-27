@@ -60,7 +60,7 @@
               <%= hidden_field_tag( 'mode', 'edit_story' ) %>
               <% if @user.id == @anime.owner_id %>
                 <%= submit_tag( '保存する', { :class => 'btn btn-primary btn-bold' } ) %>
-                <%= submit_tag( '削除する', { :class => 'btn btn-danger btn-bold' } ) %>
+                <%= submit_tag( '削除する', { :class => 'btn btn-danger btn-bold', :onClick => 'return del_confirm();' } ) %>
               <% end %>
             <% end %>
           <% end %>

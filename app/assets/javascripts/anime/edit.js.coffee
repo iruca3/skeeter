@@ -1,3 +1,9 @@
+@del_confirm = ->
+  if confirm("アニメを削除します。よろしいですか?")
+    true
+  else
+    false
+
 # DateTime Picker 
 $ ->
   $("#inputDeadline").datetimepicker
