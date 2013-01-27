@@ -69,6 +69,7 @@ class Anime < ActiveRecord::Base
       end
     end
 
+    self.total_episode_number = 0 if self.total_episode_number == nil
     return '進行中' if progress_count > 0
     return '終了済' if finish_count >= self.total_episode_number
     return '進行中'
