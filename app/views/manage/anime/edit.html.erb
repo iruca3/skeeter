@@ -40,7 +40,7 @@
             <% @anime.story.each do |story| %>
               <% params[:story_id] = story.id if params[:story_id] == nil %>
               <% prefix = '' %>
-              <% prefix = '第' + story.episode.to_s + '話 ' if story.episode != nil %>
+              <% prefix = '#' + story.episode.to_s + ' ' if story.episode != nil %>
               <li class="<%= ( params[:story_id].to_i == story.id ? 'active' : '' )%>">
                 <%= link_to( prefix + story.title, :story_id => story.id ) %>
               </li>
