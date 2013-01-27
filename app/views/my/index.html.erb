@@ -5,6 +5,11 @@
   params[:id] = 0 if params[:id] == nil
   params[:id] = params[:id].to_i
 
+  anime_badge = ''
+  if @animes.count > 0
+    anime_badge = '<span class="badge badge-important">' + @animes.count.to_s + '</span>'
+  end
+
 %>
 
 <div class="container" style="margin-top:22px;">
@@ -20,7 +25,7 @@
       <ul class="nav nav-tabs">
         <li class="<%= ( params[:id] == 0 ? 'active' : '' ) %>"><a href="#cut" data-toggle="tab">担当カット</a></li>
         <li class="<%= ( params[:id] == 1 ? 'active' : '' ) %>"><a href="#episode" data-toggle="tab">進行中エピソード</a></li>
-        <li class="<%= ( params[:id] == 2 ? 'active' : '' ) %>"><a href="#anime" data-toggle="tab">アニメ</a></li>
+        <li class="<%= ( params[:id] == 2 ? 'active' : '' ) %>"><a href="#anime" data-toggle="tab">アニメ <%= raw anime_badge %></a></li>
       </ul>
       <div class="tab-content">
         <div class="tab-pane fade<%= ( params[:id] == 0 ? ' in active' : '' ) %>" id="cut">
@@ -73,7 +78,7 @@
                 <tr>
                   <td style="font-weight:bold;"><%= link_to( anime.title, '#', { :onClick => 'return show_description(' + anime.id.to_s + ');' } ) %></td>
                   <td><%= anime.episode_status %></td>
-                  <td><%= anime.total_episode_number %></td>
+                  <td><%= anime.episode.count %>/<%= anime.total_episode_number %></td>
                   <td style="text-align:center;"><%= anime.owner.name %></td>
                   <td style="text-align:center;"><%= anime.created_at.strftime( '%Y.%m.%d %H:%M:%S' ) %></td>
                   <% if anime.owner.id == @user.id || @user.account_type == User::TYPE_ADMIN %>

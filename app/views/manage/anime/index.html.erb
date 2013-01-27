@@ -31,7 +31,7 @@
               <tr>
                 <td><%= link_to( raw( '<i class="icon-edit"></i> ' ) + anime.title, { :action => 'edit', :id => anime.id } ) %></td>
                 <td><%= anime.episode_status %></td>
-                <td><%= anime.total_episode_number %></td>
+                <td><%= anime.episode.count %>/<%= anime.total_episode_number %></td>
                 <td><%= anime.owner.name %></td>
                 <td style="text-align:center;"><%= anime.created_at.strftime( '%Y.%m.%d %H:%M:%S' ) %></td>
               </tr>
@@ -57,7 +57,7 @@
               <tr>
                 <td><%= link_to( raw( '<i class="icon-edit"></i> ' ) + anime.title, { :action => 'edit', :id => anime.id } ) %></td>
                 <td><%= anime.episode_status %></td>
-                <td><%= anime.total_episode_number %></td>
+                <td><%= anime.episode.count %>/<%= anime.total_episode_number %></td>
                 <td><%= anime.owner.name %></td>
                 <td style="text-align:center;"><%= anime.created_at.strftime( '%Y.%m.%d %H:%M:%S' ) %></td>
               </tr>
@@ -83,7 +83,7 @@
               <tr>
                 <td><%= link_to( raw( '<i class="icon-edit"></i> ' ) + anime.title, { :action => 'edit', :id => anime.id } ) %></td>
                 <td><%= anime.episode_status %></td>
-                <td><%= anime.total_episode_number %></td>
+                <td><%= anime.episode.count %>/<%= anime.total_episode_number %></td>
                 <td><%= anime.owner.name %></td>
                 <td style="text-align:center;"><%= anime.created_at.strftime( '%Y.%m.%d %H:%M:%S' ) %></td>
               </tr>
