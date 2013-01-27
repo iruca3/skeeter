@@ -1,0 +1,6 @@
+<% if @story == nil %>
+  alert('追加に失敗しました。');
+<% else %>
+  $('#frmAddStory').before('<li><%= link_to( @story.title, { :action => 'edit', :story_id => @story.id } ) %></li>');
+  $('#inputStoryName').val('');
+<% end %>

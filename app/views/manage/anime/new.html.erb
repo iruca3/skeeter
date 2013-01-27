@@ -1,13 +1,6 @@
 <%
   # アニメ新規作成ページ
 
-  anime_statuses = Anime.statuses
-
-  owners = Hash.new
-  @users.each do |user|
-    owners[user.name] = user.id
-  end
-
 %>
                      
 <div class="container">
@@ -21,36 +14,7 @@
       <div class="alert alert-info"><i class="icon-info-sign"></i> <%= @info %></div>
     <% end %>
     <%= form_tag( { :controller => '/manage/anime', :action => 'new' }, { :class => 'form-horizontal', :id => 'frmCreateAnime' } ) do %>
-      <div class="control-group">
-        <label class="control-label" for="inputTitle">タイトル</label>
-        <div class="controls">
-          <%= text_field_tag( 'title', @new_anime.title, { :id => 'inputTitle', :class => 'span5' } ) %>
-        </div>
-      </div>
-      <div class="control-group">
-        <label class="control-label" for="inputStoryNumber">予定話数</label>
-        <div class="controls">
-          <%= text_field_tag( 'story_number', @new_anime.story_number, { :id => 'inputStoryNumber', :class => 'span1' } ) %>
-        </div>
-      </div>
-      <div class="control-group">
-        <label class="control-label" for="inputOwner">責任者</label>
-        <div class="controls">
-          <%= select_tag( 'owner_id', options_for_select( owners, @new_anime.owner_id ), { :class => 'span3' } ) %>
-        </div>
-      </div>
-      <div class="control-group">
-        <label class="control-label" for="inputDescription">説明</label>
-        <div class="controls">
-          <%= text_area_tag( 'description', @new_anime.description.gsub( /<br( \/)?>/, "\n" ), { :id => 'inputDescription', :class => 'span12', :rows => 8 } ) %>
-        </div>
-      </div>
-      <div class="control-group">
-        <label class="control-label" for="inputStatus">アニメ状態</label>
-        <div class="controls">
-          <%= select_tag( 'status', options_for_select( anime_statuses, :selected => @new_anime.status ), { :class => 'span3', :id => 'inputStatus' } ) %>
-        </div>
-      </div>
+      <%= render :partial => 'anime_form' %>
       <%= hidden_field_tag( 'mode', 'create' ) %>
       <div class="control-group">
         <div class="controls">

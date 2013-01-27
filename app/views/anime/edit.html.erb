@@ -4,7 +4,6 @@
 %>
                      
 <div class="container">
-  <%= render :partial => 'breadcrumb' %>
 
   <div class="row-fluid">
     <% if @error != nil %>
@@ -20,14 +19,13 @@
     </ul>
     <div class="tab-content">
       <div class="tab-pane fade<%= ( params[:story_id] == nil ? ' in active' : '' ) %>" id="info">
-        <%= form_tag( { :controller => '/manage/anime', :action => 'edit', :id => @anime.id }, { :class => 'form-horizontal', :id => 'frmEditAnime' } ) do %>
+        <%= form_tag( { :controller => '/anime', :action => 'edit', :id => @anime.id }, { :class => 'form-horizontal', :id => 'frmEditAnime' } ) do %>
           <%= render :partial => 'anime_form' %>
           <%= hidden_field_tag( 'mode', 'edit' ) %>
           <div class="control-group">
             <div class="controls">
               <%= submit_tag( '保存する', { :class => 'btn btn-success btn-bold' } ) %>
-              <%= submit_tag( '削除する', { :class => 'btn btn-danger btn-bold', :onClick => 'return del_confirm();' } ) %>
-              <%= link_to( 'アニメ一覧へ戻る', { :controller => '/manage/anime' }, { :class => 'btn btn-bold' } ) %>
+              <%= link_to( 'アニメ一覧へ戻る', { :controller => '/my', :action => 'index', :id => 2 }, { :class => 'btn btn-bold' } ) %>
             </div>
           </div>
         <% end %>

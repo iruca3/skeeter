@@ -31,25 +31,28 @@ class Manage::AnimeController < ApplicationController
   # アニメ情報を更新する。
   public
   def edit
-    @edit_anime = Anime.find( params[:id] )
-    @users = User.find_all_enabled()
+    @anime = Anime.find( params[:id] )
+    if session['info'] != nil
+      @info = session['info']
+      session['info'] = nil
+    end
 
     if params[:mode] == 'edit'
       if params[:commit] == '保存する'
         # アカウント情報を保存する。
-        @edit_anime.title = params[:title]
-        @edit_anime.owner_id = params[:owner_id]
-        @edit_anime.story_number = params[:story_number]
-        @edit_anime.status = params[:status]
-        @edit_anime.description = params[:description]
+        @anime.title = params[:title]
+        @anime.owner_id = params[:owner_id]
+        @anime.story_number = params[:story_number]
+        @anime.status = params[:status]
+        @anime.description = params[:description]
 
-        if @edit_anime.title == ''
+        if @anime.title == ''
           @error = '入力値に不備があります。'
           return
 
         end
 
-        if @edit_anime.save
+        if @anime.save
           @info = 'アニメ情報を保存しました。'
 
         else
@@ -73,27 +76,26 @@ class Manage::AnimeController < ApplicationController
   # アカウント情報を作成する。
   public
   def new
-    @new_anime = Anime.new
-    @users = User.find_all_enabled()
+    @anime = Anime.new
 
     if params[:mode] == 'create'
       # アカウント情報を作成する。
-      @new_anime.title = params[:title]
-      @new_anime.owner_id = params[:owner_id]
-      @new_anime.story_number = params[:story_number]
-      @new_anime.status = params[:status]
-      @new_anime.description = params[:description]
+      @anime.title = params[:title]
+      @anime.owner_id = params[:owner_id]
+      @anime.story_number = params[:story_number]
+      @anime.status = params[:status]
+      @anime.description = params[:description]
 
       # 入力値チェック
-      if @new_anime.title == ''
+      if @anime.title == ''
         @error = '入力値に不備があります。'
         return
 
       end
 
-      if @new_anime.save
-        @info = '新しいアニメを作成しました。'
-        @new_anime = Anime.new
+      if @anime.save
+        session['info'] = '新しいアニメを作成しました。'
+        redirect_to :action => 'edit', :id => @anime.id
 
       else
         @error = 'アニメの作成に失敗しました。'
@@ -101,6 +103,16 @@ class Manage::AnimeController < ApplicationController
       end
 
     end
+
+  end
+
+
+  # アニメにストーリーを追加する。
+  def ajax_add_story
+    return if params[:story_name] == '' || params[:story_name] == nil
+    @anime = Anime.find( params[:id] )
+    return if @anime == nil
+    @story = Story.add( @anime, params[:story_name] )
 
   end
 

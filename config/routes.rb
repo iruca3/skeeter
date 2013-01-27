@@ -62,7 +62,9 @@ Skeeter::Application.routes.draw do
   # 管理ページ用のルーティング
   match 'manage/account(/:action(/:id))', :controller => 'manage/account'
   match 'manage/system(/:action(/:id))', :controller => 'manage/system'
-  match 'manage/anime(/:action(/:id))', :controller => 'manage/anime'
+  match 'manage/anime(/:action(/:id(/:story_id)))', :controller => 'manage/anime'
+
+  match 'anime(/:action(/:id(/:story_id)))', :controller => 'anime'
 
   # デフォルトルーティング( BeeCon/{Controller}/{action}/{id} )
   match ':controller(/:action(/:id))'
