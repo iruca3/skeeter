@@ -48,6 +48,14 @@
               <%= submit_tag( '追加', { :class => 'btn btn-primary btn-bold' } ) %>
             <% end %>
           </ul>
+        </div><!-- nav -->
+
+        <div class="span8">
+          <% if @story == nil %>
+            ストーリーを追加するか、ストーリーを選択してください。
+          <% else %>
+            <%= render :partial => 'story_form' %>
+          <% end %>
         </div>
       </div>
     </div>

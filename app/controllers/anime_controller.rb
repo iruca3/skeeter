@@ -48,6 +48,11 @@ class AnimeController < ApplicationController
       end
     end
 
+    if params[:story_id] == '' || params[:story_id] == nil
+      params[:story_id] = @anime.story[0].id if @anime.story.count > 0
+    end
+    @story = Story.find( params[:story_id] ) if params[:story_id] != nil
+
   end
 
   # アニメにストーリーを追加する。

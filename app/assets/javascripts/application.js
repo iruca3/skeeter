@@ -16,3 +16,9 @@
 //= require jquery.dataTables.min
 //= require jquery.validate.min
 //= require DT_bootstrap
+//= require jquery-ui-1.9.2.custom.min
+//= require jquery-ui-sliderAccess
+//= require jquery-ui-timepicker-addon
+//= require jquery.ui.datepicker-ja
+//= require jquery.ui.effect-slide.min
+//= require jquery.ui.slider.min
