@@ -17,7 +17,7 @@
 class Anime < ActiveRecord::Base
   after_initialize :default_values
   attr_accessible :id, :title, :owner_id, :description, :created_at, :updated_at
-  has_many :episode, :order => 'episode_number asc'
+  has_many :episode, :order => 'episode_number asc, created_at asc'
   belongs_to :owner, { :foreign_key => 'owner_id', :class_name => 'User' }
 
   # アニメの状態 凍結

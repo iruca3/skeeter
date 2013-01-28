@@ -90,7 +90,9 @@ class AnimeController < ApplicationController
     end
 
     if params[:episode_id] == '' || params[:episode_id] == nil
-      params[:episode_id] = @anime.episode[0].id if @anime.episode.count > 0
+      params[:episode_id] = @anime.episode.last.id if @anime.episode.count > 0
+    else
+      params[:mode] = 'edit_episode'
     end
     @episode = Episode.find( params[:episode_id] ) if params[:episode_id] != nil
 

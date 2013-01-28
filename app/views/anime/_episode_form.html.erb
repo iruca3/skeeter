@@ -46,3 +46,8 @@
     <%= select_tag( 'status', options_for_select( episode_statuses, :selected => @episode.status ), { :class => 'span3', :id => 'inputStatus' } ) %>
   </div>
 </div>
+<%= hidden_field_tag( 'mode', 'edit_episode' ) %>
+<% if @user.id == @anime.owner_id || @user.account_type == User::TYPE_ADMIN %>
+  <%= submit_tag( '保存する', { :class => 'btn btn-primary btn-bold' } ) %>
+  <%= submit_tag( '削除する', { :class => 'btn btn-danger btn-bold', :onClick => 'return del_confirm();' } ) %>
+<% end %>

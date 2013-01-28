@@ -15,13 +15,13 @@
     <% end %>
 
     <ul class="nav nav-tabs">
-      <li class="<%= ( params[:episode_id] == nil ? 'active' : '' ) %>"><a href="#info" data-toggle="tab">基本情報</a></li>
-      <li class="<%= ( params[:episode_id] != nil ? 'active' : '' ) %>"><a href="#detail" data-toggle="tab">エピソードの管理</a></li>
+      <li class="<%= ( params[:mode] != 'edit_episode' ? 'active' : '' ) %>"><a href="#info" data-toggle="tab">基本情報</a></li>
+      <li class="<%= ( params[:mode] == 'edit_episode' ? 'active' : '' ) %>"><a href="#detail" data-toggle="tab">エピソードの管理</a></li>
     </ul>
     <div class="tab-content">
-      <div class="tab-pane fade<%= ( params[:episode_id] == nil ? ' in active' : '' ) %>" id="info">
+      <div class="tab-pane fade<%= ( params[:mode] != 'edit_episode' ? ' in active' : '' ) %>" id="info">
         <%= form_tag( { :controller => '/manage/anime', :action => 'edit', :id => @anime.id }, { :class => 'form-horizontal', :id => 'frmEditAnime' } ) do %>
-          <%= render :partial => 'anime_form' %>
+          <%= render :partial => 'anime/anime_form' %>
           <%= hidden_field_tag( 'mode', 'edit' ) %>
           <div class="control-group">
             <div class="controls">
@@ -33,24 +33,8 @@
         <% end %>
       </div>
 
-      <div class="tab-pane fade<%= ( params[:episode_id] != nil ? ' in active' : '' ) %>" id="detail">
-        <div class="span4 well" style="padding:8px 0;">
-          <ul class="nav nav-list" id="episode_list">
-            <li class="nav-header"><%= @anime.title %></li>
-            <% @anime.episode.each do |episode| %>
-              <% params[:episode_id] = episode.id if params[:episode_id] == nil %>
-              <% prefix = '' %>
-              <% prefix = '#' + episode.episode_number.to_s + ' ' if episode.episode_number != nil %>
-              <li class="<%= ( params[:episode_id].to_i == episode.id ? 'active' : '' )%>">
-                <%= link_to( prefix + episode.title, :episode_id => episode.id ) %>
-              </li>
-            <% end %>
-            <%= form_tag( { :action => 'ajax_add_episode', :id => @anime.id, :episode_id => params[:episode_id] }, { :class => 'form-inline', :id => 'frmAddEpisode', :remote => true, :style => 'margin-bottom:0px;margin-top:10px;' } ) do %>
-              <%= text_field_tag( 'episode_name', '', { :id => 'inputEpisodeName', :class => 'span9', :placeholder => 'エピソードを新しく追加' } ) %>
-              <%= submit_tag( '追加', { :class => 'btn btn-primary btn-bold' } ) %>
-            <% end %>
-          </ul>
-        </div><!-- /nav -->
+      <div class="tab-pane fade<%= ( params[:mode] == 'edit_episode' ? ' in active' : '' ) %>" id="detail">
+        <%= render :partial => 'anime/episode_list' %>
 
         <div class="span8">
           <% if @episode == nil %>
@@ -58,12 +42,7 @@
           <% else %>
             <%= form_tag( { :action => 'edit', :id => @anime.id, :episode_id => @episode.id }, { :id => 'frmEditEpisode' } ) do %>
               <h4 class="headline" style="margin-top:0px;"><%= @anime.title %></h4>
-              <%= render :partial => 'episode_form' %>
-              <%= hidden_field_tag( 'mode', 'edit_episode' ) %>
-              <% if @user.id == @anime.owner_id || @user.account_type == User::TYPE_ADMIN %>
-                <%= submit_tag( '保存する', { :class => 'btn btn-primary btn-bold' } ) %>
-                <%= submit_tag( '削除する', { :class => 'btn btn-danger btn-bold', :onClick => 'return del_confirm();' } ) %>
-              <% end %>
+              <%= render :partial => 'anime/episode_form' %>
             <% end %>
           <% end %>
         </div>

@@ -1,0 +1,17 @@
+        <div class="span4 well" style="padding:8px 0;">
+          <ul class="nav nav-list" id="episode_list">
+            <li class="nav-header"><%= @anime.title %></li>
+            <% @anime.episode.each do |episode| %>
+              <% params[:episode_id] = episode.id if params[:episode_id] == nil %>
+              <% prefix = '' %>
+              <% prefix = '#' + episode.episode_number.to_s + ' ' if episode.episode_number != nil %>
+              <li class="<%= ( params[:episode_id].to_i == episode.id ? 'active' : '' )%>">
+                <%= link_to( prefix + episode.title, :episode_id => episode.id ) %>
+              </li>
+            <% end %>
+            <%= form_tag( { :action => 'ajax_add_episode', :id => @anime.id, :episode_id => params[:episode_id] }, { :class => 'form-inline', :id => 'frmAddEpisode', :remote => true, :style => 'margin-bottom:0px;margin-top:10px;' } ) do %>
+              <%= text_field_tag( 'episode_name', '', { :id => 'inputEpisodeName', :class => 'span9', :placeholder => 'エピソードを新しく追加' } ) %>
+              <%= submit_tag( '追加', { :class => 'btn btn-primary btn-bold' } ) %>
+            <% end %>
+          </ul>
+        </div><!-- /nav -->
