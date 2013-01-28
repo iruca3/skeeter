@@ -64,6 +64,18 @@ class User < ActiveRecord::Base
     }
 
   end
+
+  # ユーザがシステム管理者かどうかを判定する。
+  #
+  # === 返り値
+  # [true] システム管理者
+  # [false] システム管理者ではない
+  #
+  public
+  def is_admin?
+    return true if self.account_type == User::TYPE_ADMIN
+    return false
+  end
   
   # ログインIDからユーザを検索する。
   #

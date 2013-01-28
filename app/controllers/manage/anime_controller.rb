@@ -11,7 +11,7 @@ class Manage::AnimeController < ApplicationController
   # アクセス権限がない場合、マイページへ遷移する。
   private
   def access_check
-    if @user.account_type != User::TYPE_ADMIN
+    unless @user.is_admin?
       redirect_to :controller => '/my'
       return
 

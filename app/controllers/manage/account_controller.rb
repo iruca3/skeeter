@@ -14,7 +14,7 @@ class Manage::AccountController < ApplicationController
   # アクセス権限がない場合、マイページへ遷移する。
   private
   def access_check
-    if @user.account_type != User::TYPE_ADMIN
+    unless @user.is_admin
       redirect_to :controller => '/my'
       return
 
@@ -56,7 +56,7 @@ class Manage::AccountController < ApplicationController
         # このアカウント以外に管理者アカウントがなく、無効化しようとしている場合ははじく。
         admins = User.find_by_enabled_admin()
         if admins.count <= 1 && original_type == User::TYPE_ADMIN
-          if @edit_user.account_status == User::STATUS_DISABLED || @edit_user.account_type != User::TYPE_ADMIN
+          if @edit_user.account_status == User::STATUS_DISABLED || ( ! @edit_user.is_admin? )
             @error = '唯一の管理者アカウントを無効化することはできません。'
             return
           end

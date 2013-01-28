@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130128073604) do
+ActiveRecord::Schema.define(:version => 20130128183058) do
 
   create_table "animes", :force => true do |t|
     t.integer  "owner_id"
@@ -21,6 +21,22 @@ ActiveRecord::Schema.define(:version => 20130128073604) do
     t.datetime "created_at",           :null => false
     t.datetime "updated_at",           :null => false
     t.integer  "status"
+  end
+
+  create_table "cut_parts", :force => true do |t|
+    t.string   "name"
+    t.datetime "created_at", :null => false
+    t.datetime "updated_at", :null => false
+  end
+
+  create_table "cuts", :force => true do |t|
+    t.integer  "episode_id"
+    t.string   "number"
+    t.integer  "cut_part_id"
+    t.string   "picture"
+    t.text     "memo"
+    t.datetime "created_at",  :null => false
+    t.datetime "updated_at",  :null => false
   end
 
   create_table "episode_members", :force => true do |t|

@@ -1,6 +1,18 @@
 <%
   # エピソード カット管理画面
-  
+
+  cut_parts = Hash.new
+  CutPart.find( :all ).each do |cut_part|
+    cut_parts[cut_part.name] = cut_part.id
+  end
+
+  cuts_hash = Hash.new
+  @episode.cut.each do |cut|
+    part_name = ''
+    part_name = cut.part.name if ! cut.part.nil?
+    cuts_hash[ cut.number + ' ' + part_name ] = cut.id
+  end
+
 %>
 
 <div class="container">
@@ -8,6 +20,86 @@
     <div class="span12" style="margin-top: -8px;">
       <h4 class="headline"><%= @episode.title %></h4>
 
+      <% # システム管理者、アニメ責任者、エピソード監督のみ、カットの操作盤を表示 %>
+      <% if @user.is_admin? %>
+        <div class="well well-small">
+          <button type="button" class="btn btn-success btn-bold" onClick="$('#add_cut_forms').toggle(300);">カットを追加</button>
+          <button type="button" class="btn btn-success btn-bold" onClick="$('#add_cut_by_zip_form').toggle(300);">ZIPでまとめて追加</button>
+          <%= link_to( 'カット番号の桁数を変更', '#', { :class => 'btn btn-success btn-bold', :onClick => "$('#add_cut_forms').hide(300);$('#frmAddCutByZip').show(300);" } ) %>
+          <div id="add_cut_forms" style="display:none;margin-top:10px;">
+            <strong>カット番号を指定して追加</strong>
+            <%= form_tag( { :controller => '/cut', :action => 'add', :id => @episode.id }, { :class => 'form-inline', :style => 'margin-left:15px;' } ) do %>
+              <%= hidden_field_tag( 'mode', 'add' ) %>
+              開始番号: <%= text_field_tag( 'number', '', { :class => 'span2', :placeholder => '例: 012' } ) %>
+              追加枚数: <%= text_field_tag( 'add_number', '1', { :class => 'span1', :placeholder => '枚数' } ) %>
+              パート: <%= select_tag( 'cut_part_id', options_for_select( cut_parts ), { :class => 'span2' } ) %>
+              <%= submit_tag( '追加する', { :class => 'btn btn-primary btn-bold btn-small' } ) %>
+            <% end %>
+
+            <strong>末尾に追加</strong>
+            <%= form_tag( { :controller => '/cut', :action => 'add', :id => @episode.id }, { :class => 'form-inline', :style => 'margin-left:15px;' } ) do %>
+              <%= hidden_field_tag( 'mode', 'add_last' ) %>
+              追加枚数: <%= text_field_tag( 'add_number', '1', { :class => 'span1', :placeholder => '枚数' } ) %>
+              パート: <%= select_tag( 'cut_part_id', options_for_select( cut_parts ), { :class => 'span2' } ) %>
+              <%= submit_tag( '追加する', { :class => 'btn btn-primary btn-bold btn-small' } ) %>
+            <% end %>
+
+            <% if @episode.cut.count > 0 %>
+              <strong>特定のカットの後に追加</strong>
+              <%= form_tag( { :controller => '/cut', :action => 'add', :id => @episode.id }, { :class => 'form-inline', :style => 'margin-left:15px;' } ) do %>
+                <%= hidden_field_tag( 'mode', 'add_after' ) %>
+                Cut <%= select_tag( 'needle_cut_id', options_for_select( cuts_hash ), { :class => 'span2' } ) %> の後に
+                <%= text_field_tag( 'add_number', '1', { :class => 'span1', :placeholder => '枚数' } ) %> 枚を
+                パート: <%= select_tag( 'cut_part_id', options_for_select( cut_parts ), { :class => 'span2' } ) %> で
+                <%= submit_tag( '追加する', { :class => 'btn btn-primary btn-bold btn-small' } ) %>
+              <% end %>
+            <% end %>
+          </div>
+          <div id="add_cut_by_zip_form" style="display:none;margin-top:10px;">
+            <strong>ZIPでまとめて追加</strong>
+            <%= form_tag( { :controller => '/cut', :action => 'add', :id => @episode.id }, { :id => 'frmAddCutByZip', :class => 'form-inline', :style => 'margin-left:15px;' } ) do %>
+              <%= hidden_field_tag( 'mode', 'add_by_zip' ) %>
+              <%= file_field_tag( 'zip_file' ) %>
+              <%= submit_tag( '追加する', { :class => 'btn btn-primary btn-bold btn-small' } ) %>
+            <% end %>
+          </div>
+        </div>
+      <% end %>
+
+      <table class="table table-bordered table-condensed table-striped table-hover" id="cut_list">
+        <thead>
+          <tr class="center-cell">
+            <th>Cut</th>
+            <th>パート</th>
+            <th>Picture</th>
+            <th>BG</th>
+            <th>L/O</th>
+            <th>原画</th>
+            <th>ラフ動</th>
+            <th>線画</th>
+            <th>スキャン</th>
+            <th>着彩</th>
+            <th>撮影</th>
+          </tr>
+        </thead>
+        <tbody>
+          <% @episode.cut.each do |cut| %>
+            <tr>
+              <td style="height:60px;vertical-align:middle;text-align:center;"><%= cut.number %></td>
+              <td style="text-align:center;vertical-align:middle;"><%= ( cut.part == nil ? '-' : cut.part.name ) %></td>
+              <td><span style="width:100px;height:60px;">Picture</span></td>
+              <td style="width:60px;"></td>
+              <td style="width:60px;"></td>
+              <td style="width:60px;"></td>
+              <td style="width:60px;"></td>
+              <td style="width:60px;"></td>
+              <td style="width:60px;"></td>
+              <td style="width:60px;"></td>
+              <td style="width:60px;"></td>
+            </tr>
+          <% end %>
+        <tbody>
+      </table>
 
     </div>
   </div>

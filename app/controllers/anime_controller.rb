@@ -32,7 +32,7 @@ class AnimeController < ApplicationController
       if params[:commit] == '保存する'
         # アカウント情報を保存する。
         @anime.title = params[:title]
-        @anime.owner_id = params[:owner_id] if @user.account_type == User::TYPE_ADMIN
+        @anime.owner_id = params[:owner_id] if @user.is_admin
         @anime.total_episode_number = params[:total_episode_number]
         @anime.status = params[:status]
         @anime.description = params[:description]
@@ -155,7 +155,7 @@ class AnimeController < ApplicationController
   private
   def check_edit_permission( anime )
     return false if anime.nil?
-    return false if anime.owner.id != @user.id && @user.account_type != User::TYPE_ADMIN
+    return false if anime.owner.id != @user.id && ( ! @user.is_admin? )
     return true
   end
 
