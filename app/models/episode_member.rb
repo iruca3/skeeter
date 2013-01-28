@@ -33,5 +33,41 @@ class EpisodeMember < ActiveRecord::Base
 
   end
 
+  # 役割名を返す。
+  public
+  def role_name
+    EpisodeMember.roles.each do |name, val|
+      return name if val == self.role
+    end
+    return '不明'
+
+  end
+
+  # メンバーを追加する。
+  #
+  # === 返り値
+  # [EpisodeMember] 追加に成功
+  # [nil] 追加に失敗
+  #
+  public
+  def self.add_member( episode, user_id, role )
+    episode_id = episode.id
+    user_id = user_id.to_i
+    return nil if episode_id <= 0
+    return nil if user_id <= 0
+   
+    return nil if episode.contain_member( user_id )
+    
+    member = EpisodeMember.new(
+      :episode_id => episode.id,
+      :user_id => user_id,
+      :role => role
+    )
+    if ! member.save
+      return nil
+    end
+    return member
+
+  end
 
 end

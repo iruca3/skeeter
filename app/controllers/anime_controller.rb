@@ -22,8 +22,7 @@ class AnimeController < ApplicationController
     @anime = Anime.find( params[:id] )
 
     # アクセス権限チェック
-    # 作品責任者 or システム管理者のみアクセスを許可。
-    if @anime.owner.id != @user.id && @user.account_type != User::TYPE_ADMIN
+    if check_edit_permission( @anime ) == false
       redirect_to :controller => '/my'
       return
 
@@ -105,12 +104,31 @@ class AnimeController < ApplicationController
     return if @anime == nil
 
     # アクセス権限チェック
-    # 作品責任者 or システム管理者のみアクセスを許可。
-    return if @anime.owner.id != @user.id && @user.account_type != User::TYPE_ADMIN
+    return unless check_edit_permission( @anime )
 
     @episode = Episode.add( @anime, params[:episode_name] )
 
   end
 
+  # メンバーを追加する。
+  public
+  def ajax_add_episode_member
+    @episode = Episode.find( params[:episode_id] )
+    @member = EpisodeMember.add_member( @episode, params[:user_id], params[:role] )
+    
+  end
+
+  # 編集権限を確認する。
+  # 作品責任者 or システム管理者のみ編集を許可。
+  #
+  # === 返り値
+  # [true] 編集権限OK
+  # [false] 編集権限がない
+  #
+  private
+  def check_edit_permission( anime )
+    return false if anime.owner.id != @user.id && @user.account_type != User::TYPE_ADMIN
+    return true
+  end
 
 end

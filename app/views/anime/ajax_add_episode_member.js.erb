@@ -1,0 +1,14 @@
+<% if @member != nil %>
+  $('#episode_member_list').dataTable().fnAddData( [
+    '<%= @member.user.name %>',
+    '<%= @member.role_name %>',
+    '<%= ( @member.user.last_login == nil ? '-' : @member.user.last_login.strftime( '%Y.%m.%d %H:%M:%S' ) ) %>',
+    '<%= link_to( '削除', { :action => 'remove_episode_member', :episode_id => params[:episode_id], :user_id => @member.user.id }, { :remote => true, :class => 'btn btn-small btn-danger' } ) %>'
+  ] );
+  $('#inputEpisodeUserId').children('[value=<%= @member.user.id %>]').remove();
+  if ( $('#inputEpisodeUserId').children().length == 0 ) {
+    $('#frmAddEpisodeMember').hide(300);
+  }
+<% else %>
+  alert( '追加に失敗しました。' );
+<% end %>

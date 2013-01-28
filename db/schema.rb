@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130127204926) do
+ActiveRecord::Schema.define(:version => 20130128073604) do
 
   create_table "animes", :force => true do |t|
     t.integer  "owner_id"
@@ -25,7 +25,7 @@ ActiveRecord::Schema.define(:version => 20130127204926) do
 
   create_table "episode_members", :force => true do |t|
     t.integer  "user_id"
-    t.integer  "story_id"
+    t.integer  "episode_id"
     t.integer  "role"
     t.datetime "created_at", :null => false
     t.datetime "updated_at", :null => false

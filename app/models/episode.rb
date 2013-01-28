@@ -22,8 +22,8 @@ class Episode < ActiveRecord::Base
   after_initialize :default_values
   attr_accessible :id, :anime_id, :director_id, :episode_number, :title, :description, :deadline, :status, :created_at, :updated_at
   has_many :cut
-  has_many :episode_member
-  belongs_to :director, :foreign_key => 'director_id', :class_name => 'user'
+  has_many :member, :class_name => 'EpisodeMember'
+  belongs_to :director, :foreign_key => 'director_id', :class_name => 'User'
   belongs_to :anime, :foreign_key => 'anime_id'
 
   # 状態 準備中
@@ -87,6 +87,20 @@ class Episode < ActiveRecord::Base
   # 関係者からエピソードを取得
   def self.find_by_member( user )
     return Array.new
+
+  end
+
+  # 特定のユーザIDがメンバーに含まれているかどうかを判定。
+  #
+  # === 返り値
+  # [true] 含まれている
+  # [false] 含まれていない
+  #
+  def contain_member( user_id )
+    self.member.each do |member|
+      return true if member.user.id == user_id
+    end
+    return false
 
   end
 

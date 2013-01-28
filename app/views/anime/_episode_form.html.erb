@@ -1,10 +1,10 @@
 <%
   # エピソード情報編集フォーム
 
-  directors = Hash.new
+  users_hash = Hash.new
   users = User.find_all_enabled()
   users.each do |user|
-    directors[user.name] = user.id
+    users_hash[user.name] = user.id
   end
 
   episode_statuses = Episode.statuses
@@ -13,49 +13,91 @@
 <% if @episode == nil %>
   エピソードを追加するか、エピソードを選択してください。
 <% else %>
-  <%= form_tag( { :action => 'edit', :id => @anime.id, :episode_id => @episode.id }, { :id => 'frmEditEpisode' } ) do %>
-    <h4 class="headline" style="margin-top:0px;"><%= @anime.title %></h4>
-    <div class="control-group">
-      <label class="control-label" for="inputTitle">タイトル</label>
-      <div class="controls">
-        <%= text_field_tag( 'title', @episode.title, { :id => 'inputTitle', :class => 'span5' } ) %>
-      </div>
-    </div>
-    <div class="control-group">
-      <label class="control-label" for="inputEpisodeNumber">エピソード番号(何話目か)</label>
-      <div class="controls">
-        <%= text_field_tag( 'episode_number', @episode.episode_number, { :id => 'inputEpisodeNumber', :class => 'span1' } ) %>
-      </div>
-    </div>
-    <div class="control-group">
-      <label class="control-label" for="inputDirector">監督</label>
-      <div class="controls">
-        <%= select_tag( 'director_id', options_for_select( directors, @episode.director_id ), { :class => 'span3' } ) %>
-      </div>
-    </div>
-    <div class="control-group">
-      <label class="control-label" for="inputDescription">説明</label>
-      <div class="controls">
-        <%= text_area_tag( 'description', @episode.description.gsub( /<br( \/)?>/, "\n" ), { :id => 'inputDescription', :class => 'span12', :rows => 8 } ) %>
-      </div>
-    </div>
-    <div class="control-group">
-      <label class="control-label" for="inputDeadline">締切</label>
-      <div class="controls">
-        <input type="datetime" name="deadline" class="span4" id="inputDeadline" value="<%= ( @episode.deadline != nil ? @episode.deadline.strftime( '%Y.%m.%d %H:%M:%S' ) : '' ) %>" placeholder="例: <%= ( DateTime.now + 7 ).strftime( '%Y.%m.%d %H:%M:%S' ) %>" />
-      </div>
-    </div>
-    <div class="control-group">
-      <label class="control-label" for="inputStatus">状態</label>
-      <div class="controls">
-        <%= select_tag( 'status', options_for_select( episode_statuses, :selected => @episode.status ), { :class => 'span3', :id => 'inputStatus' } ) %>
-      </div>
-    </div>
-    <%= hidden_field_tag( 'mode', 'edit_episode' ) %>
-    <% if @user.id == @anime.owner_id || @user.account_type == User::TYPE_ADMIN %>
-      <%= submit_tag( '保存する', { :class => 'btn btn-primary btn-bold' } ) %>
-      <%= submit_tag( '削除する', { :class => 'btn btn-danger btn-bold', :onClick => 'return del_confirm();' } ) %>
-    <% end %>
+  <h4 class="headline" style="margin-top:0px;"><%= @anime.title %></h4>
+  <ul class="nav nav-tabs">
+    <li class="active"><a href="#episode_info" data-toggle="tab">概要</a></li>
+    <li><a href="#episode_member" data-toggle="tab">メンバー</a></li>
+  </ul>
 
-  <% end %>
+  <div class="tab-content">
+    <div class="tab-pane fade in active" id="episode_info">
+      <%= form_tag( { :action => 'edit', :id => @anime.id, :episode_id => @episode.id }, { :id => 'frmEditEpisode' } ) do %>
+        <div class="control-group">
+          <label class="control-label" for="inputTitle">タイトル</label>
+          <div class="controls">
+            <%= text_field_tag( 'title', @episode.title, { :id => 'inputTitle', :class => 'span5' } ) %>
+          </div>
+        </div>
+        <div class="control-group">
+          <label class="control-label" for="inputEpisodeNumber">エピソード番号(何話目か)</label>
+          <div class="controls">
+            <%= text_field_tag( 'episode_number', @episode.episode_number, { :id => 'inputEpisodeNumber', :class => 'span1' } ) %>
+          </div>
+        </div>
+        <div class="control-group">
+          <label class="control-label" for="inputDirector">監督</label>
+          <div class="controls">
+            <%= select_tag( 'director_id', options_for_select( users_hash, @episode.director_id ), { :class => 'span3' } ) %>
+          </div>
+        </div>
+        <div class="control-group">
+          <label class="control-label" for="inputDescription">説明</label>
+          <div class="controls">
+            <%= text_area_tag( 'description', @episode.description.gsub( /<br( \/)?>/, "\n" ), { :id => 'inputDescription', :class => 'span12', :rows => 8 } ) %>
+          </div>
+        </div>
+        <div class="control-group">
+          <label class="control-label" for="inputDeadline">締切</label>
+          <div class="controls">
+            <input type="datetime" name="deadline" class="span4" id="inputDeadline" value="<%= ( @episode.deadline != nil ? @episode.deadline.strftime( '%Y.%m.%d %H:%M:%S' ) : '' ) %>" placeholder="例: <%= ( DateTime.now + 7 ).strftime( '%Y.%m.%d %H:%M:%S' ) %>" />
+          </div>
+        </div>
+        <div class="control-group">
+          <label class="control-label" for="inputStatus">状態</label>
+          <div class="controls">
+            <%= select_tag( 'status', options_for_select( episode_statuses, :selected => @episode.status ), { :class => 'span3', :id => 'inputStatus' } ) %>
+          </div>
+        </div>
+        <%= hidden_field_tag( 'mode', 'edit_episode' ) %>
+        <% if @user.id == @anime.owner_id || @user.account_type == User::TYPE_ADMIN %>
+          <%= submit_tag( '保存する', { :class => 'btn btn-primary btn-bold' } ) %>
+          <%= submit_tag( '削除する', { :class => 'btn btn-danger btn-bold', :onClick => 'return del_confirm();' } ) %>
+        <% end %>
+
+      <% end %>
+    </div>
+
+    <div class="tab-pane fade" id="episode_member">
+      <% members_hash = users_hash.reject{ | name, id | @episode.contain_member( id ) } %>
+      <% if members_hash.length > 0 %>
+        <%= form_tag( { :action => 'ajax_add_episode_member', :id => @anime.id, :episode_id => @episode.id }, { :remote => true, :class => 'form-inline', :id => 'frmAddEpisodeMember' } ) do %>
+          メンバーを追加する: 
+          <%= select_tag( 'user_id', options_for_select( members_hash ), { :class => 'span3', :id => 'inputEpisodeUserId' } ) %>
+          <%= select_tag( 'role', options_for_select( EpisodeMember.roles, EpisodeMember::ROLE_GENERAL ), { :class => 'span3' } ) %>
+          <%= submit_tag( '追加する', { :class => 'btn btn-success btn-bold' } ) %>
+        <% end %>
+      <% end %>
+      <table class="table table-bordered table-condensed table-striped table-hover" id="episode_member_list">
+        <thead>
+          <tr class="center-cell">
+            <th>メンバー</th>
+            <th>役割</th>
+            <th>最終ログイン日時</th>
+            <th>操作</th>
+          </tr>
+        </thead>
+        <tbody>
+          <% @episode.member.each do |member| %>
+            <tr>
+              <td><%= member.user.name %></td>
+              <td><%= member.role_name %></td>
+              <td><%= ( member.user.last_login == nil ? '-' : member.user.last_login.strftime( '%Y.%m.%d %H:%M:%S' ) ) %></td>
+              <td style="text-align:center;"><%= link_to( '削除', { :action => 'ajax_remove_episode_member', :episode_id => params[:episode_id], :user_id => member.user.id }, { :remote => true, :class => 'btn btn-small btn-danger' } ) %></td>
+            </tr>
+          <% end %>
+        </tbody>
+      </table>
+
+    </div>
+  </div>
 <% end %>

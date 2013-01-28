@@ -205,8 +205,9 @@ class User < ActiveRecord::Base
   # [string] 種別名
   #
   def type_name
-    return '一般ユーザ' if self.account_type == TYPE_USER
-    return 'システム管理者' if self.account_type == TYPE_ADMIN
+    User.account_types.each do |name, val|
+      return name if val == self.account_type
+    end
     return '不明'
 
   end

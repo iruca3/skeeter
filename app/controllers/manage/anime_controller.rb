@@ -156,6 +156,20 @@ class Manage::AnimeController < ApplicationController
     return if @anime == nil
     @episode = Episode.add( @anime, params[:episode_name] )
 
+    render 'anime/ajax_add_episode'
+    return
+
+  end
+
+  # メンバーを追加する。
+  public
+  def ajax_add_episode_member
+    @episode = Episode.find( params[:episode_id] )
+    @member = EpisodeMember.add_member( @episode, params[:user_id], params[:role] )
+
+    render 'anime/ajax_add_episode_member'
+    return
+
   end
 
 end
