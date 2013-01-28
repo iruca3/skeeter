@@ -22,7 +22,7 @@ class EpisodeController < ApplicationController
 
     # 権限チェック
     unless @episode.contain_member( @user.id )
-      redirect_to :controller => '/my', :id => 1
+      redirect_to :controller => '/my', :id => 1 unless @user.is_admin?
       return
 
     end
