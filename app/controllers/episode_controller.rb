@@ -26,6 +26,15 @@ class EpisodeController < ApplicationController
       return
 
     end
+
+    unless session['info'].nil?
+      @info = session['info']
+      session['info'] = nil
+    end
+    unless session['error'].nil?
+      @error = session['error']
+      session['error'] = nil
+    end
       
   end
 

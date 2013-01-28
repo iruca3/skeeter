@@ -20,6 +20,13 @@
     <div class="span12" style="margin-top: -8px;">
       <h4 class="headline"><%= @episode.title %></h4>
 
+      <% if @error != nil %>
+        <div class="alert alert-danger"><i class="icon-info-sign"></i> <%= @error %></div>
+      <% end %>
+      <% if @info != nil %>
+        <div class="alert alert-info"><i class="icon-info-sign"></i> <%= @info %></div>
+      <% end %>
+
       <% # システム管理者、アニメ責任者、エピソード監督のみ、カットの操作盤を表示 %>
       <% if @user.is_admin? %>
         <div class="well well-small">

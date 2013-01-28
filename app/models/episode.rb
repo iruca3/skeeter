@@ -21,7 +21,7 @@
 class Episode < ActiveRecord::Base
   after_initialize :default_values
   attr_accessible :id, :anime_id, :director_id, :episode_number, :title, :description, :deadline, :status, :created_at, :updated_at
-  has_many :cut
+  has_many :cut, :order => 'number'
   has_many :member, :class_name => 'EpisodeMember'
   belongs_to :director, :foreign_key => 'director_id', :class_name => 'User'
   belongs_to :anime, :foreign_key => 'anime_id'
@@ -96,10 +96,35 @@ class Episode < ActiveRecord::Base
   # [true] 含まれている
   # [false] 含まれていない
   #
+  public
   def contain_member( user_id )
     self.member.each do |member|
       return true if member.user.id == user_id
     end
+    return false
+
+  end
+
+
+  # 特定のカット番号が含まれているかどうかを判定。
+  #
+  # === 引数
+  # [cut_number] カット番号の配列
+  # 
+  # === 返り値
+  # [true] 含まれている
+  # [false] 含まれていない
+  #
+  public
+  def contain_cut( cut_number )
+    ret = Cut.find( 
+      :all,
+      :conditions => {
+        :number => cut_number
+      }
+    )
+
+    return true if ret.count > 0
     return false
 
   end
