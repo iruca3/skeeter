@@ -37,14 +37,7 @@
         <%= render :partial => 'anime/episode_list' %>
 
         <div class="span8">
-          <% if @episode == nil %>
-            エピソードを追加するか、エピソードを選択してください。
-          <% else %>
-            <%= form_tag( { :action => 'edit', :id => @anime.id, :episode_id => @episode.id }, { :id => 'frmEditEpisode' } ) do %>
-              <h4 class="headline" style="margin-top:0px;"><%= @anime.title %></h4>
-              <%= render :partial => 'anime/episode_form' %>
-            <% end %>
-          <% end %>
+          <%= render :partial => 'anime/episode_form' %>
         </div>
       </div>
     </div>
