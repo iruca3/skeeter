@@ -1,14 +1,22 @@
 <% if @member != nil %>
-  $('#episode_member_list').dataTable().fnAddData( [
+  var data = $('#episode_member_list').dataTable().fnAddData( [
     '<%= @member.user.name %>',
     '<%= @member.role_name %>',
     '<%= ( @member.user.last_login == nil ? '-' : @member.user.last_login.strftime( '%Y.%m.%d %H:%M:%S' ) ) %>',
-    '<%= link_to( '削除', { :action => 'remove_episode_member', :episode_id => params[:episode_id], :user_id => @member.user.id }, { :remote => true, :class => 'btn btn-small btn-danger' } ) %>'
+    '<%= link_to( '削除', { :action => 'ajax_remove_episode_member', :episode_id => params[:episode_id], :user_id => @member.user.id }, { :remote => true, :class => 'btn btn-small btn-danger' } ) %>'
   ] );
+  var tr = $('#episode_member_list').dataTable().fnSettings().aoData[ data[0] ].nTr;
+  $(tr).attr('id','episode_member_<%= @member.id %>');
+  $(tr).children('td:eq(1)').attr('style','text-align:center;');
+  $(tr).children('td:eq(2)').attr('style','text-align:center;');
+  $(tr).children('td:eq(3)').attr('style','text-align:center;');
+
   $('#inputEpisodeUserId').children('[value=<%= @member.user.id %>]').remove();
   if ( $('#inputEpisodeUserId').children().length == 0 ) {
     $('#frmAddEpisodeMember').hide(300);
   }
+
+  $('#episode_member_list').dataTable().fnAdjustColumnSizing();
 <% else %>
   alert( '追加に失敗しました。' );
 <% end %>

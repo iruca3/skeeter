@@ -151,10 +151,14 @@ class Manage::AnimeController < ApplicationController
 
   # アニメにストーリーを追加する。
   def ajax_add_episode
-    return if params[:episode_name] == '' || params[:episode_name] == nil
-    @anime = Anime.find( params[:id] )
-    return if @anime == nil
-    @episode = Episode.add( @anime, params[:episode_name] )
+    if params[:episode_name] != '' && params[:episode_name] != nil
+      @anime = Anime.find( params[:id] )
+      if @anime != nil
+        @episode = Episode.add( @anime, params[:episode_name] )
+
+      end
+
+    end
 
     render 'anime/ajax_add_episode'
     return
@@ -168,6 +172,29 @@ class Manage::AnimeController < ApplicationController
     @member = EpisodeMember.add_member( @episode, params[:user_id], params[:role] )
 
     render 'anime/ajax_add_episode_member'
+    return
+
+  end
+
+  # メンバーを削除する。
+  public
+  def ajax_remove_episode_member
+    @episode = Episode.find( params[:episode_id] )
+    @result = false
+
+    @member = nil
+    @episode.member.each do |member|
+      if member.user.id == params[:user_id].to_i 
+        @member = member
+        break
+      end
+    end
+    if @member != nil
+      @result = EpisodeMember.remove_member( @episode, params[:user_id] )
+    
+    end
+
+    render 'anime/ajax_remove_episode_member'
     return
 
   end

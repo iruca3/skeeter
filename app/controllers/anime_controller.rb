@@ -114,7 +114,32 @@ class AnimeController < ApplicationController
   public
   def ajax_add_episode_member
     @episode = Episode.find( params[:episode_id] )
+
+    # アクセス権限チェック
+    return unless check_edit_permission( @episode.anime )
+
     @member = EpisodeMember.add_member( @episode, params[:user_id], params[:role] )
+    
+  end
+
+  # メンバーを削除する。
+  public
+  def ajax_remove_episode_member
+    @episode = Episode.find( params[:episode_id] )
+    @result = false
+
+    # アクセス権限チェック
+    return unless check_edit_permission( @episode.anime )
+
+    @member = nil
+    @episode.member.each do |member|
+      if member.user.id == params[:user_id].to_i 
+        @member = member
+        break
+      end
+    end
+    return if @member == nil
+    @result = EpisodeMember.remove_member( @episode, params[:user_id] )
     
   end
 

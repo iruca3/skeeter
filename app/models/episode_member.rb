@@ -70,4 +70,24 @@ class EpisodeMember < ActiveRecord::Base
 
   end
 
+  # メンバーを削除する。
+  #
+  # === 返り値
+  # [true] 削除に成功
+  # [false] 削除に失敗
+  #
+  public
+  def self.remove_member( episode, user_id )
+    episode_id = episode.id
+    user_id = user_id.to_i
+    return false if episode_id <= 0
+    return false if user_id <= 0
+   
+    return false if ! episode.contain_member( user_id )
+
+    EpisodeMember.delete_all( :user_id => user_id, :episode_id => episode.id )
+    return true
+    
+  end
+
 end

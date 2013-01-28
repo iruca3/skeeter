@@ -1,0 +1,9 @@
+<% if @result == true %>
+  $('#inputEpisodeUserId').append("<option value='<%= @member.user.id %>'><%= @member.user.name %></option>");
+  $('#frmAddEpisodeMember').show(300);
+  var table = $('#episode_member_list').dataTable();
+  table.fnDeleteRow( table.fnGetPosition( document.getElementById('episode_member_<%= @member.id %>') ) );
+
+<% else %>
+  alert( '削除に失敗しました。' );
+<% end %>
