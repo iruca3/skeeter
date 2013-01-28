@@ -90,4 +90,20 @@ class EpisodeMember < ActiveRecord::Base
     
   end
 
+  # 指定されたユーザが関わっているエピソードを取得する。
+  #
+  # === 返り値
+  # [Array(EpisodeMember)] EpisodeMemberオブジェクトの配列
+  #
+  public
+  def self.find_by_user( user )
+    return self.find( 
+      :all,
+      :conditions => {
+        :user_id => user.id
+      }
+    )
+
+  end
+
 end

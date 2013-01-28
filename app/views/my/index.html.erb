@@ -55,7 +55,62 @@
               </tr>
             </thead>
             <tbody>
-
+              <% EpisodeMember.find_by_user( @user ).each do |member| %>
+                <% deadline = '未定' %>
+                <% unless member.episode.deadline.blank? %>
+                  <% deadline = member.episode.deadline.strftime( '%Y.%m.%d %H:%M:%S' ) %>
+                <% end %>
+                <% director = member.episode.director %>
+                <tr>
+                  <td><%= link_to( raw( '<i class="icon icon-edit"></i> ' ) + member.episode.title, { :controller => 'episode', :action => 'index', :id => member.episode.id } ) %></td>
+                  <td></td>
+                  <td>
+                    <% if director == nil %>
+                      未定
+                    <% else %>
+                      <a href="#modalProfile_<%= member.episode.id %>" role="button" data-toggle="modal"><%= director.name %></a>
+                      <div id="modalProfile_<%= member.episode.id %>" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="modalLabel_<% member.episode.id %>" aria-hidden="true">
+                        <div class="modal-header">
+                          <button type="button" class="close" data-dismiss="modal" aria-hidden="true">x</button>
+                          <h3 id="modalLabel_<%= member.episode.id %>"><%= director.name %></h3>
+                        </div>
+                        <div class="modal-body">
+                          <dl class="dl-horizontal">
+                            <% unless director.real_name.blank? %>
+                              <dt>氏名</dt>
+                              <dd><%= director.real_name %></dd>
+                            <% end %>
+                            <% unless director.nick_name.blank? %>
+                              <dt>ニックネーム</dt>
+                              <dd><%= director.nick_name %></dd>
+                            <% end %>
+                            <% unless director.mail_addr.blank? %>
+                              <dt>メールアドレス</dt>
+                              <dd><%= mail_to( director.mail_addr, raw( '<i class="icon icon-envelope"></i> ' ) + director.mail_addr ) %></dd>
+                            <% end %>
+                            <% unless director.phone_number.blank? %>
+                              <dt>電話番号</dt>
+                              <dd><%= director.phone_number %></dd>
+                            <% end %>
+                            <% unless director.twitter.blank? %>
+                              <dt>Twitter</dt>
+                              <dd><%= link_to( director.twitter, 'http://twitter.com/' + director.twitter, { :target => '_blank' } ) %></dd>
+                            <% end %>
+                            <% unless director.pixiv.blank? %>
+                              <dt>Pixiv</dt>
+                              <dd><%= link_to( director.pixiv, 'http://www.pixiv.net/member.php?id=' + director.pixiv, { :target => '_blank' } ) %></dd>
+                            <% end %>
+                          </dl>
+                        </div>
+                        <div class="modal-footer">
+                          <button class="btn" data-dismiss="modal" aria-hidden="true">閉じる</button>
+                        </div>
+                      </div>
+                    <% end %>
+                  </td>
+                  <td><%= deadline %></td>
+                </tr>
+              <% end %>
             </tbody>
           </table>
         </div>
