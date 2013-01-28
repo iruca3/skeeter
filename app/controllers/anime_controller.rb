@@ -19,7 +19,7 @@ class AnimeController < ApplicationController
       
     end
 
-    @anime = Anime.find( params[:id] )
+    @anime = Anime.find_by_id( params[:id] )
 
     # アクセス権限チェック
     if check_edit_permission( @anime ) == false
@@ -52,9 +52,9 @@ class AnimeController < ApplicationController
         end
       end
     elsif params[:mode] == 'edit_episode'
-      @episode = Episode.find( params[:episode_id] )
+      @episode = Episode.find_by_id( params[:episode_id] )
       if params[:commit] == '保存する'
-        if @episode != nil
+        unless @episode.nil?
           @episode.title = params[:title]
           @episode.director_id = params[:director_id]
           @episode.episode_number = params[:episode_number]
@@ -93,15 +93,15 @@ class AnimeController < ApplicationController
     else
       params[:mode] = 'edit_episode'
     end
-    @episode = Episode.find( params[:episode_id] ) if params[:episode_id] != nil
+    @episode = Episode.find_by_id( params[:episode_id] ) if params[:episode_id] != nil
 
   end
 
   # アニメにストーリーを追加する。
   def ajax_add_episode
     return if params[:episode_name] == '' || params[:episode_name] == nil
-    @anime = Anime.find( params[:id] )
-    return if @anime == nil
+    @anime = Anime.find_by_id( params[:id] )
+    return if @anime.nil?
 
     # アクセス権限チェック
     return unless check_edit_permission( @anime )
@@ -113,7 +113,8 @@ class AnimeController < ApplicationController
   # メンバーを追加する。
   public
   def ajax_add_episode_member
-    @episode = Episode.find( params[:episode_id] )
+    @episode = Episode.find_by_id( params[:episode_id] )
+    return if @episode.nil?
 
     # アクセス権限チェック
     return unless check_edit_permission( @episode.anime )
@@ -125,7 +126,8 @@ class AnimeController < ApplicationController
   # メンバーを削除する。
   public
   def ajax_remove_episode_member
-    @episode = Episode.find( params[:episode_id] )
+    @episode = Episode.find_by_id( params[:episode_id] )
+    return if @episode.nil?
     @result = false
 
     # アクセス権限チェック
@@ -152,6 +154,7 @@ class AnimeController < ApplicationController
   #
   private
   def check_edit_permission( anime )
+    return false if anime.nil?
     return false if anime.owner.id != @user.id && @user.account_type != User::TYPE_ADMIN
     return true
   end

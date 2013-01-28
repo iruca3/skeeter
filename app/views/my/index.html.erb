@@ -10,11 +10,16 @@
     anime_badge = '<span class="badge badge-important">' + @animes.count.to_s + '</span>'
   end
 
+  episodes = EpisodeMember.find_by_user( @user )
+  if episodes.count > 0
+    episode_badge = '<span class="badge badge-important">' + episodes.count.to_s + '</span>'
+  end
+
 %>
 
-<div class="container" style="margin-top:22px;">
+<div class="container">
   <div class="row-fluid">
-    <div class="span12" style="margin-top:-30px;">
+    <div class="span12" style="margin-top:-8px;">
       <h4>ようこそ、<%= @user.name %> さん。</h4>
       <% if @user.account_type == User::TYPE_ADMIN %>
       <div style="margin-top:-10px;">
@@ -24,7 +29,7 @@
       
       <ul class="nav nav-tabs">
         <li class="<%= ( params[:id] == 0 ? 'active' : '' ) %>"><a href="#cut" data-toggle="tab">担当カット</a></li>
-        <li class="<%= ( params[:id] == 1 ? 'active' : '' ) %>"><a href="#episode" data-toggle="tab">進行中エピソード</a></li>
+        <li class="<%= ( params[:id] == 1 ? 'active' : '' ) %>"><a href="#episode" data-toggle="tab">進行中エピソード <%= raw episode_badge %></a></li>
         <li class="<%= ( params[:id] == 2 ? 'active' : '' ) %>"><a href="#anime" data-toggle="tab">アニメ <%= raw anime_badge %></a></li>
       </ul>
       <div class="tab-content">
@@ -55,7 +60,7 @@
               </tr>
             </thead>
             <tbody>
-              <% EpisodeMember.find_by_user( @user ).each do |member| %>
+              <% episodes.each do |member| %>
                 <% deadline = '未定' %>
                 <% unless member.episode.deadline.blank? %>
                   <% deadline = member.episode.deadline.strftime( '%Y.%m.%d %H:%M:%S' ) %>
