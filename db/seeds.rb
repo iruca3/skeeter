@@ -19,7 +19,7 @@ end
 # カットパート
 if CutPart.find( :all, :conditions => { :episode_id => nil } )[0].sort == nil
   # 旧データの場合
-  CutPart.destroy( :all )
+  CutPart.destroy_all()
 end
 if CutPart.find( :all ).count <= 0 
   CutPart.create( :sort => 1, :name => 'アバンパート', :episode_id => nil )
