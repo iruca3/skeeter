@@ -55,7 +55,7 @@
               <strong>特定のカットの後に追加</strong>
               <%= form_tag( { :controller => '/cut', :action => 'add', :id => @episode.id }, { :class => 'form-inline', :style => 'margin-left:15px;' } ) do %>
                 <%= hidden_field_tag( 'mode', 'add_after' ) %>
-                Cut <%= select_tag( 'needle_cut_id', options_for_select( cuts_hash ), { :class => 'span2' } ) %> の後に
+                Cut <%= select_tag( 'needle_cut_id', options_for_select( cuts_hash ), { :class => 'span3' } ) %> の後に
                 <%= text_field_tag( 'add_number', '1', { :class => 'span1', :placeholder => '枚数' } ) %> 枚を
                 パート: <%= select_tag( 'cut_part_id', options_for_select( cut_parts ), { :class => 'span2' } ) %> で
                 <%= submit_tag( '追加する', { :class => 'btn btn-primary btn-bold btn-small' } ) %>

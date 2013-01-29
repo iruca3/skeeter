@@ -1,0 +1,5 @@
+<% if @cut_part.nil? %>
+  alert('カットパートの追加に失敗しました。');
+<% else %>
+  $('#cut_part_list').append('<tr id="cut_part_<%= @cut_part.id %>"><td><%= @cut_part.name %></td><td><%= link_to( raw( '<i class="icon icon-arrow-up"></i> ' ) + '上へ', { :action => 'ajax_up_cut_part', :id => params[:id], :episode_id => params[:episode_id], :cut_part_id => @cut_part.id }, { :remote => true, :class => 'btn btn-small' } ) %>    <%= link_to( raw( '<i class="icon icon-arrow-down"></i> ' ) + '下へ', { :action => 'ajax_down_cut_part', :id => params[:id], :episode_id => params[:episode_id], :cut_part_id => @cut_part.id }, { :remote => true, :class => 'btn btn-small' } ) %>    &nbsp;&nbsp;    <%= link_to( raw( '<i class="icon icon-remove icon-white"></i> ' ) + '削除', { :action => 'ajax_down_cut_part', :id => params[:id], :episode_id => params[:episode_id], :cut_part_id => @cut_part.id }, { :remote => true, :class => 'btn btn-danger btn-small' } ) %></td></tr>');
+<% end %>

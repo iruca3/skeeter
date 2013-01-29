@@ -125,6 +125,7 @@ class Episode < ActiveRecord::Base
     ret = Cut.find( 
       :all,
       :conditions => {
+        :episode_id => self.id,
         :number => cut_number
       }
     )

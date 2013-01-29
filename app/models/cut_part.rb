@@ -49,4 +49,30 @@ class CutPart < ActiveRecord::Base
 
   end
 
+  # カットパートを追加する。
+  #
+  # === 引数
+  # [episode_id] エピソードID
+  # [name] カットパートの名前
+  # 
+  # === 返り値
+  # [CutPart] 追加したカットパートオブジェクト
+  # 
+  public
+  def self.add( episode_id, name )
+    # 既に同名のパートがないか確認
+    return nil if CutPart.find( :all, :conditions => { :episode_id => episode_id, :name => name } ).count > 0
+
+    # オーダーを計算
+    order = CutPart.find( :all, :conditions => { :episode_id => episode_id } ).count
+    order = order + 1
+    
+    return CutPart.create(
+      :name => name,
+      :episode_id => episode_id,
+      :sort => order
+    )
+
+  end
+
 end

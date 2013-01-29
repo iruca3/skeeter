@@ -73,7 +73,7 @@ class CutController < ApplicationController
     last_added_num = ''
     if params[:mode] == 'add'
       # カット番号を指定して追加
-      redirect_to :controller => 'my' and return if params[:number].blank?
+      redirect_to :controller => 'episode', :action => 'index', :id => @episode.id and return if params[:number].blank?
 
       # 桁数を計算する。
       digits = 3

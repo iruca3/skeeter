@@ -115,7 +115,7 @@
         </thead>
         <tbody>
           <% @episode.cut_part.each do |part| %>
-            <tr>
+            <tr id="cut_part_<%= part.id %>">
               <td><%= part.name %></td>
               <td>
                 <%= link_to( raw( '<i class="icon icon-arrow-up"></i> ' ) + '上へ', { :action => 'ajax_up_cut_part', :id => @anime.id, :episode_id => @episode.id, :cut_part_id => part.id }, { :remote => true, :class => 'btn btn-small' } ) %>
