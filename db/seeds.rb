@@ -17,14 +17,18 @@ if User.find( :all, :conditions => { :account_type => User::TYPE_ADMIN } ).count
 end
 
 # カットパート
-if CutPart.find( :all ).count <= 0
-  CutPart.create( :name => 'アバンパート' )
-  CutPart.create( :name => 'OP' )
-  CutPart.create( :name => 'Aパート' )
-  CutPart.create( :name => 'アイキャッチ' )
-  CutPart.create( :name => 'Bパート' )
-  CutPart.create( :name => 'ED' )
-  CutPart.create( :name => '次回予告' )
+if CutPart.find( :all, :conditions => { :episode_id => nil } )[0].sort == nil
+  # 旧データの場合
+  CutPart.destroy( :all )
+end
+if CutPart.find( :all ).count <= 0 
+  CutPart.create( :sort => 1, :name => 'アバンパート', :episode_id => nil )
+  CutPart.create( :sort => 2, :name => 'OP', :episode_id => nil )
+  CutPart.create( :sort => 3, :name => 'Aパート', :episode_id => nil )
+  CutPart.create( :sort => 4, :name => 'アイキャッチ', :episode_id => nil )
+  CutPart.create( :sort => 5, :name => 'Bパート', :episode_id => nil )
+  CutPart.create( :sort => 6, :name => 'ED', :episode_id => nil )
+  CutPart.create( :sort => 7, :name => '次回予告', :episode_id => nil )
 
 end
 

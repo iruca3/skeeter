@@ -2,7 +2,7 @@
   # エピソード カット管理画面
 
   cut_parts = Hash.new
-  CutPart.find( :all ).each do |cut_part|
+  CutPart.find_by_episode( @episode ).each do |cut_part|
     cut_parts[cut_part.name] = cut_part.id
   end
 

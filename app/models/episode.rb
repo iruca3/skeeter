@@ -23,6 +23,7 @@ class Episode < ActiveRecord::Base
   attr_accessible :id, :anime_id, :director_id, :episode_number, :title, :description, :deadline, :status, :created_at, :updated_at
   has_many :cut, :order => 'number'
   has_many :member, :class_name => 'EpisodeMember'
+  has_many :cut_part, :order => 'sort'
   belongs_to :director, :foreign_key => 'director_id', :class_name => 'User'
   belongs_to :anime, :foreign_key => 'anime_id'
 
@@ -80,6 +81,10 @@ class Episode < ActiveRecord::Base
     )
 
     return nil if new_episode.new_record?
+    
+    # プリセットのカットパートを登録
+    CutPart.set_preset( new_episode )
+    
     return new_episode
 
   end

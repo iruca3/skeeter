@@ -85,10 +85,10 @@ class Manage::AnimeController < ApplicationController
           end
 
           if @episode.save
-            @info = 'アニメ情報を保存しました。'
+            @info = 'エピソード情報を保存しました。'
 
           else
-            @error = 'アニメ情報の保存に失敗しました。'
+            @error = 'エピソード情報の保存に失敗しました。'
 
           end
 

@@ -18,6 +18,7 @@
   <ul class="nav nav-tabs">
     <li class="active"><a href="#episode_info" data-toggle="tab">概要</a></li>
     <li><a href="#episode_member" data-toggle="tab">メンバー</a></li>
+    <li><a href="#cut_part" data-toggle="tab">カットパート</a></li>
   </ul>
 
   <div class="tab-content">
@@ -100,5 +101,33 @@
       </table>
 
     </div>
+
+    <div class="tab-pane fade" id="cut_part">
+      <%= form_tag( { :action => 'ajax_add_cut_part', :id => @anime.id, :episode_id => @episode.id }, { :remote => true, :class => 'form-inline', :id => 'frmAddCutPart', :style => frm_style } ) do %>
+        カットパートを追加する:
+        <%= text_field_tag( 'name', '', { :class => 'span3', :id => 'inputCutPartName', :placeholder => '例: Aパート' } ) %>
+        <%= submit_tag( '追加する', { :class => 'btn btn-success btn-bold' } ) %>
+      <% end %>
+      <table class="table table-bordered table-condensed table-striped table-hover" id="cut_part_list">
+        <thead>
+          <th>カットパート名</th>
+          <th>操作</th>
+        </thead>
+        <tbody>
+          <% @episode.cut_part.each do |part| %>
+            <tr>
+              <td><%= part.name %></td>
+              <td>
+                <%= link_to( raw( '<i class="icon icon-arrow-up"></i> ' ) + '上へ', { :action => 'ajax_up_cut_part', :id => @anime.id, :episode_id => @episode.id, :cut_part_id => part.id }, { :remote => true, :class => 'btn btn-small' } ) %>
+                <%= link_to( raw( '<i class="icon icon-arrow-down"></i> ' ) + '下へ', { :action => 'ajax_down_cut_part', :id => @anime.id, :episode_id => @episode.id, :cut_part_id => part.id }, { :remote => true, :class => 'btn btn-small' } ) %>
+                &nbsp;&nbsp;
+                <%= link_to( raw( '<i class="icon icon-remove icon-white"></i> ' ) + '削除', { :action => 'ajax_down_cut_part', :id => @anime.id, :episode_id => @episode.id, :cut_part_id => part.id }, { :remote => true, :class => 'btn btn-danger btn-small' } ) %>
+              </td>
+            </tr>
+          <% end %>
+        </tbody>
+      </table>
+    </div>
+
   </div>
 <% end %>
