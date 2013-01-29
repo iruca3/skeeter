@@ -75,4 +75,21 @@ class CutPart < ActiveRecord::Base
 
   end
 
+  # カットパートを削除する。
+  # 削除時に、ソート値をつけ直す。
+  public
+  def remove
+    self.destroy
+    cut_parts = CutPart.find( :all, :conditions => { :episode_id => self.episode_id }, :order => 'sort asc' )
+    i = 1
+
+    cut_parts.each do |cut_part|
+      cut_part.sort = i
+      cut_part.save
+      i += 1
+      
+    end
+
+  end
+
 end

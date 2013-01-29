@@ -1,0 +1,5 @@
+<% if @cut_part.nil? %>
+  alert('削除に失敗しました。');
+<% else %>
+  $('#cut_part_<%= params[:cut_part_id] %>').remove();
+<% end %>

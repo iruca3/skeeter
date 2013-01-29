@@ -123,6 +123,19 @@ class AnimeController < ApplicationController
 
   end
 
+  # カットパートを削除する。
+  def ajax_remove_cut_part
+    return if params[:cut_part_id].nil?
+    @cut_part = CutPart.find_by_id( params[:cut_part_id] )
+    return if @cut_part.nil?
+
+    # アクセス権限チェック
+    return unless check_edit_permission( @cut_part.episode.anime )
+    
+    @cut_part.remove
+
+  end
+
   # メンバーを追加する。
   public
   def ajax_add_episode_member

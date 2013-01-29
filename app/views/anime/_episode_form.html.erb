@@ -118,10 +118,10 @@
             <tr id="cut_part_<%= part.id %>">
               <td><%= part.name %></td>
               <td>
-                <%= link_to( raw( '<i class="icon icon-arrow-up"></i> ' ) + '上へ', { :action => 'ajax_up_cut_part', :id => @anime.id, :episode_id => @episode.id, :cut_part_id => part.id }, { :remote => true, :class => 'btn btn-small' } ) %>
-                <%= link_to( raw( '<i class="icon icon-arrow-down"></i> ' ) + '下へ', { :action => 'ajax_down_cut_part', :id => @anime.id, :episode_id => @episode.id, :cut_part_id => part.id }, { :remote => true, :class => 'btn btn-small' } ) %>
+                <%= link_to( raw( '<i class="icon icon-arrow-up"></i> ' ) + '上へ', { :action => 'ajax_up_cut_part', :id => @anime.id, :episode_id => @episode.id, :cut_part_id => part.id }, { :remote => true, :class => 'btn btn-small ' + ( part.sort.to_i == 1 ? 'disabled' : '' ) } ) %>
+                <%= link_to( raw( '<i class="icon icon-arrow-down"></i> ' ) + '下へ', { :action => 'ajax_down_cut_part', :id => @anime.id, :episode_id => @episode.id, :cut_part_id => part.id }, { :remote => true, :class => 'btn btn-small ' + ( part.sort.to_i == @episode.cut_part.count ? 'disabled' : '' ) } ) %>
                 &nbsp;&nbsp;
-                <%= link_to( raw( '<i class="icon icon-remove icon-white"></i> ' ) + '削除', { :action => 'ajax_down_cut_part', :id => @anime.id, :episode_id => @episode.id, :cut_part_id => part.id }, { :remote => true, :class => 'btn btn-danger btn-small' } ) %>
+                <%= link_to( raw( '<i class="icon icon-remove icon-white"></i> ' ) + '削除', { :action => 'ajax_remove_cut_part', :id => @anime.id, :episode_id => @episode.id, :cut_part_id => part.id }, { :remote => true, :class => 'btn btn-danger btn-small' } ) %>
               </td>
             </tr>
           <% end %>

@@ -199,4 +199,30 @@ class Manage::AnimeController < ApplicationController
 
   end
 
+  # カットパートを追加する。
+  def ajax_add_cut_part
+    return if params[:name] == '' || params[:name] == nil
+    @anime = Anime.find_by_id( params[:id] )
+    return if @anime.nil?
+
+    @cut_part = CutPart.add( params[:episode_id], params[:name] )
+
+    render 'anime/ajax_add_cut_part'
+    return
+
+  end
+
+  # カットパートを削除する。
+  def ajax_remove_cut_part
+    return if params[:cut_part_id].nil?
+    @cut_part = CutPart.find_by_id( params[:cut_part_id] )
+    return if @cut_part.nil?
+
+    @cut_part.remove
+
+    render 'anime/ajax_remove_cut_part'
+    return
+
+  end
+
 end
