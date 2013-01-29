@@ -14,7 +14,7 @@ class Manage::AccountController < ApplicationController
   # アクセス権限がない場合、マイページへ遷移する。
   private
   def access_check
-    unless @user.is_admin
+    unless @user.is_admin?
       redirect_to :controller => '/my'
       return
 

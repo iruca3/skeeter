@@ -14,7 +14,7 @@
       <div class="alert alert-info"><i class="icon-info-sign"></i> <%= @info %></div>
     <% end %>
     <%= form_tag( { :controller => '/manage/anime', :action => 'new' }, { :class => 'form-horizontal', :id => 'frmCreateAnime' } ) do %>
-      <%= render :partial => 'anime_form' %>
+      <%= render :partial => 'anime/anime_form' %>
       <%= hidden_field_tag( 'mode', 'create' ) %>
       <div class="control-group">
         <div class="controls">

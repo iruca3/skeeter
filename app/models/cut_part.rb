@@ -24,7 +24,7 @@ class CutPart < ActiveRecord::Base
     )
 
     cut_parts.each do |part|
-      CutPart.create( :name => part.name, :episode_id => episode.id, :sort => part.order )
+      CutPart.create( :name => part.name, :episode_id => episode.id, :sort => part.sort )
     end
     
   end
