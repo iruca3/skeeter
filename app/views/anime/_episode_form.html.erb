@@ -127,6 +127,18 @@
           <% end %>
         </tbody>
       </table>
+
+      <div style="display:none;" id="rename_form">
+        <%= form_tag( { :action => 'ajax_change_cut_part_name', :id => @anime.id, :episode_id => @episode.id }, { :remote => true, :class => 'form-inline', :id => 'frmAddCutPart', :style => 'margin-left:15px;' } ) do %>
+        
+          <strong>カットパート名の変更</strong><br />
+          <span id="cut_part_name_before"></span> → <%= text_field_tag( 'new_name', '', { :class => 'span4' } ) %>
+          <%= hidden_field_tag( 'cut_part_id', '', { :id => 'rf_cut_part_id' } ) %>
+          <%= submit_tag( '変更', { :class => 'btn btn-success' } ) %>
+          <button class="btn" type="button" onClick="$('#rename_form').hide(300);">やめる</button>
+        <% end %>
+      </div>     
+
     </div>
 
   </div>
