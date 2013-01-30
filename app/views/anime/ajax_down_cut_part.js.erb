@@ -1,0 +1,16 @@
+<% if @sort_from != @sort_to %>
+  var tr1 = $('#cut_part_list tr:eq(<%= @sort_from %>)');
+  var tr2 = $('#cut_part_list tr:eq(<%= @sort_to %>)');
+  var tr1c = tr1.html();
+  tr1.html( tr2.html() );
+  tr2.html( tr1c );
+  tr1.attr( 'id', 'cut_part_<%= @sort_to %>' );
+  tr2.attr( 'id', 'cut_part_<%= @sort_from %>' );
+  <% if @sort_from == 1 %>
+    $(tr2.selector+' a:eq(0)').removeClass('disabled');
+    $(tr1.selector+' a:eq(0)').addClass('disabled');
+  <% elsif @sort_to == @cut_part.episode.cut_part.count %>
+    $(tr1.selector+' a:eq(1)').removeClass('disabled');
+    $(tr2.selector+' a:eq(1)').addClass('disabled');
+  <% end %>
+<% end %>

@@ -136,6 +136,36 @@ class AnimeController < ApplicationController
 
   end
 
+  # カットパートを上に移動する。
+  def ajax_up_cut_part
+    return if params[:cut_part_id].nil?
+    @cut_part = CutPart.find_by_id( params[:cut_part_id] )
+    return if @cut_part.nil?
+
+    # アクセス権限チェック
+    return unless check_edit_permission( @cut_part.episode.anime )
+    
+    @sort_from = @cut_part.sort
+    @cut_part.move_up
+    @sort_to = @cut_part.sort
+
+  end
+  
+  # カットパートを下に移動する。
+  def ajax_down_cut_part
+    return if params[:cut_part_id].nil?
+    @cut_part = CutPart.find_by_id( params[:cut_part_id] )
+    return if @cut_part.nil?
+
+    # アクセス権限チェック
+    return unless check_edit_permission( @cut_part.episode.anime )
+    
+    @sort_from = @cut_part.sort
+    @cut_part.move_down
+    @sort_to = @cut_part.sort
+
+  end
+
   # メンバーを追加する。
   public
   def ajax_add_episode_member

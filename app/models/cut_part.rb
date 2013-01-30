@@ -92,4 +92,37 @@ class CutPart < ActiveRecord::Base
 
   end
 
+  # カットパートを上に移動する。
+  public
+  def move_up
+    # 既に一番上なら何もしない。
+    return if self.sort == 1
+    
+    upper_cut_part = CutPart.find( :all, :conditions => { :episode_id => self.episode_id, :sort => self.sort - 1 } )
+    return if upper_cut_part.count <= 0
+
+    upper_cut_part = upper_cut_part[0]
+    upper_cut_part.sort += 1
+    self.sort -= 1
+
+    upper_cut_part.save
+    self.save
+
+  end
+
+  # カットパートを下に移動する。
+  public
+  def move_down
+    downer_cut_part = CutPart.find( :all, :conditions => { :episode_id => self.episode_id, :sort => self.sort + 1 } )
+    return if downer_cut_part.count <= 0
+
+    downer_cut_part = downer_cut_part[0]
+    downer_cut_part.sort -= 1
+    self.sort += 1
+
+    downer_cut_part.save
+    self.save
+
+  end
+
 end
