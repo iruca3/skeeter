@@ -21,10 +21,10 @@
       <h4 class="headline"><%= @episode.title %></h4>
 
       <% if @error != nil %>
-        <div class="alert alert-danger"><i class="icon-info-sign"></i> <%= @error %></div>
+        <div class="alert alert-danger"><i class="icon-info-sign"></i> <%= raw @error %></div>
       <% end %>
       <% if @info != nil %>
-        <div class="alert alert-info"><i class="icon-info-sign"></i> <%= @info %></div>
+        <div class="alert alert-info"><i class="icon-info-sign"></i> <%= raw @info %></div>
       <% end %>
 
       <% # システム管理者、アニメ責任者、エピソード監督のみ、カットの操作盤を表示 %>
@@ -64,7 +64,7 @@
           </div>
           <div id="add_cut_by_zip_form" style="display:none;margin-top:10px;">
             <strong>ZIPでまとめて追加</strong>
-            <%= form_tag( { :controller => '/cut', :action => 'add', :id => @episode.id }, { :id => 'frmAddCutByZip', :class => 'form-inline', :style => 'margin-left:15px;' } ) do %>
+            <%= form_tag( { :controller => '/cut', :action => 'add', :id => @episode.id }, { :enctype => 'multipart/form-data', :id => 'frmAddCutByZip', :class => 'form-inline', :style => 'margin-left:15px;' } ) do %>
               <%= hidden_field_tag( 'mode', 'add_by_zip' ) %>
               <%= file_field_tag( 'zip_file' ) %>
               <%= submit_tag( '追加する', { :class => 'btn btn-primary btn-bold btn-small' } ) %>

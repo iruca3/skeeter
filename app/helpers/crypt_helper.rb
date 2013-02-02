@@ -48,4 +48,16 @@ module CryptHelper
     return Digest::SHA256.new.update( str ).to_s
   end
 
+  # ファイルのMD5ハッシュ値を計算
+  #
+  # === 引数
+  # [file_path] ファイルのパス
+  #
+  # === 返り値
+  # [string] MD5ハッシュ値
+  #
+  def CryptHelper.make_md5_by_file( file_path )
+    return Digest::MD5.file( file_path ).to_s
+  end
+
 end
