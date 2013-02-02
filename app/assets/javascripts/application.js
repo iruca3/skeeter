@@ -22,3 +22,8 @@
 //= require jquery.ui.datepicker-ja
 //= require jquery.ui.effect-slide.min
 //= require jquery.ui.slider.min
+//= require jquery.mousewheel-3.0.6.pack
+//= require jquery.fancybox.pack
+//= require jquery.fancybox-buttons
+//= require jquery.fancybox-thumbs
+//= require jquery.fancybox-media

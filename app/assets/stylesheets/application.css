@@ -14,4 +14,7 @@
  *= require DT_bootstrap
  *= require jquery-ui-1.9.2.custom.min
  *= require jquery-ui-timepicker-addon
+ *= require jquery.fancybox
+ *= require jquery.fancybox-buttons
+ *= require jquery.fancybox-thumbs
  */

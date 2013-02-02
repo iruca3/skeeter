@@ -110,7 +110,7 @@
                 <% if cut.picture.blank? %>
                   <span style="height:60px;">-</span>
                 <% else %>
-                  <img src="/cut/picture/<%= cut.id %>" alt="<%= cut.number %> style="height:60px;">
+                  <a class="fancybox" rel="cut" title="<%= cut.episode.anime.title + ( cut.episode.episode_number.nil? ? '' : ' #' + cut.episode.episode_number.to_s ) + ' ' + cut.episode.title + ' ' + cut.number %>" href="/cut/picture/<%= cut.id %>.jpg"><img style="height:60px;" src="/cut/picture/<%= cut.id %>" alt="<%= cut.number %>"></a>
                 <% end %>
               </td>
               <td style="width:60px;"></td>
