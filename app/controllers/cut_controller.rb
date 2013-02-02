@@ -257,4 +257,24 @@ class CutController < ApplicationController
 
   end
 
+  # ピクチュアを画像データとして返す。
+  def picture
+    cut = Cut.find_by_id( params[:id] )
+
+    # アクセス権限のチェック
+    unless cut.episode.contain_member( @user ) || @user.is_admin?
+      send_data( open( 'data/picture/blank.png', 'rb' ).read, :type => 'image/png', :disposition => 'inline' )
+      return
+    end
+
+    if cut.picture.blank?
+      send_data( open( 'data/picture/blank.png', 'rb' ).read, :type => 'image/png', :disposition => 'inline' )
+      return
+    end
+
+    send_data( open( 'data/picture/' + cut.picture, 'rb' ).read, :type => 'image/png', :disposition => 'inline' )
+    return
+
+  end
+
 end

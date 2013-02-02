@@ -94,7 +94,13 @@
             <tr>
               <td style="height:60px;vertical-align:middle;text-align:center;"><%= cut.number %></td>
               <td style="text-align:center;vertical-align:middle;"><%= ( cut.part == nil ? '-' : cut.part.name ) %></td>
-              <td><span style="width:100px;height:60px;">Picture</span></td>
+              <td>
+                <% if cut.picture.blank? %>
+                  <span style="height:60px;">-</span>
+                <% else %>
+                  <img src="/cut/picture/<%= cut.id %>" alt="<%= cut.number %> style="height:60px;">
+                <% end %>
+              </td>
               <td style="width:60px;"></td>
               <td style="width:60px;"></td>
               <td style="width:60px;"></td>
