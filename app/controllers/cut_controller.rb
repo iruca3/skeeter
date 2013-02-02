@@ -262,7 +262,7 @@ class CutController < ApplicationController
     cut = Cut.find_by_id( params[:id] )
 
     # アクセス権限のチェック
-    unless cut.episode.contain_member( @user ) || @user.is_admin?
+    unless cut.episode.contain_member( @user ) || ( cut.episode.director != nil && cut.episode.director.id == @user.id ) || @user.is_admin?
       send_data( open( 'data/picture/blank.png', 'rb' ).read, :type => 'image/png', :disposition => 'inline' )
       return
     end

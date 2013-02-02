@@ -87,10 +87,22 @@
             <th>スキャン</th>
             <th>着彩</th>
             <th>撮影</th>
+            <th>更新日時</th>
           </tr>
         </thead>
         <tbody>
           <% @episode.cut.each do |cut| %>
+            <% time_dif = DateTime.now - cut.updated_at.to_datetime %>
+            <% time_dif = ( time_dif * 24 * 60 * 60 ).to_i %>
+            <% if time_dif < 60 %>
+              <% time_dif_str = time_dif.to_s + ' 秒前' %>
+            <% elsif time_dif < 60 * 60 %>
+              <% time_dif_str = ( time_dif / 60 ).ceil.to_s + ' 分前' %>
+            <% elsif time_dif < 60 * 60 * 24 %>
+              <% time_dif_str = ( time_dif / 60 / 60 ).ceil.to_s + ' 時間前' %>
+            <% else %>
+              <% time_dif_str = ( time_dif / 60 / 60 / 24 ).ceil.to_s + ' 日前' %>
+            <% end %>
             <tr>
               <td style="height:60px;vertical-align:middle;text-align:center;"><%= cut.number %></td>
               <td style="text-align:center;vertical-align:middle;"><%= ( cut.part == nil ? '-' : cut.part.name ) %></td>
@@ -109,6 +121,7 @@
               <td style="width:60px;"></td>
               <td style="width:60px;"></td>
               <td style="width:60px;"></td>
+              <td style="font-size:0.8em;vertical-align:middle;"><span style="display:none;"><%= cut.updated_at.strftime( '%Y.%m.%d %H:%M:%S' ) %></span><a title="<%= cut.updated_at.strftime( '%Y.%m.%d %H:%M:%S' ) %>"><%= time_dif_str %></a></td>
             </tr>
           <% end %>
         <tbody>
